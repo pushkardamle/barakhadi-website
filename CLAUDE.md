@@ -56,6 +56,14 @@ Background, research and the decision record: `docs/barakhadi-rebuild-assessment
 - Accessibility: visible focus states, AA contrast (white text on bright orange fails; check), alt text on every image, a working mobile menu.
 - Old WordPress URLs that change get a 301 in `public/_redirects`; junk WordPress pages return 410.
 
+## Hosting and deploys (live since 2026-10-18)
+
+- Live at https://www.barakhadi.com. The Worker `barakhadi-web` is attached by zone routes `www.barakhadi.com/*` and `barakhadi.com/*` (see `wrangler.jsonc`).
+- Cloudflare settings: the DNS records for the apex and www are proxied, Always Use HTTPS is on, and a Redirect Rule sends `barakhadi.com` to `https://www.barakhadi.com` (301).
+- Deploy with `npm run build && npx wrangler deploy`. Secrets live in Cloudflare as **Secret** type; `keep_vars` stops deploys from wiping dashboard variables.
+- `workers/email-forwarder` is a separate Email Worker: info@ goes to the addresses in `FORWARD_TO`. Deploy it with `npx wrangler deploy --config wrangler.jsonc` from that folder.
+- Rollback: set the two DNS records back to "DNS only" while the old Cloudways host still exists.
+
 ## Phases
 
 1. **Now:** replace WordPress. Home, Who it's for, Pricing, About, FAQ, Contact, Privacy, Terms. (A "How it works" page was dropped on 2026-10-18; `/videos/` redirects to the home page video.) DNS to Cloudflare.
