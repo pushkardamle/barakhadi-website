@@ -1,0 +1,78 @@
+---
+import '@/styles/global.css';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { site } from '@/data/site';
+import { Font, getImage } from 'astro:assets';
+import ogDefault from '@/assets/activities/ss_clock_result.avif';
+
+interface Props {
+  /** Page name; " | Barakhadi" is appended. Omit on the home page. */
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+  /** Extra JSON-LD objects for this page (e.g. FAQPage). */
+  schema?: Record<string, unknown>[];
+}
+
+const { title, description = site.description, noindex = false, schema = [] } = Astro.props;
+const ogImage = await getImage({ src: ogDefault, width: 1200, height: 630, format: 'jpg', fit: 'cover' });
+const pageTitle = title ? `${title} | ${site.name}` : `${site.name} | ${site.tagline}`;
+const canonical = new URL(Astro.url.pathname, site.url);
+const robots = noindex || !site.launched ? 'noindex, nofollow' : undefined;
+
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.name,
+  legalName: site.company,
+  alternateName: site.nameMarathi,
+  url: site.url,
+  logo: new URL('/icon-512.png', site.url).href,
+  email: site.email,
+  description: site.description,
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {robots && <meta name="robots" content={robots} />}
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#119b49" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(ogImage.src, site.url)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <Font cssVariable="--font-nunito" preload />
+    <Font cssVariable="--font-outfit" preload />
+    <Font cssVariable="--font-baloo" />
+    <script type="application/ld+json" set:html={JSON.stringify([organization, ...schema])} />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body class="flex min-h-screen flex-col antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:shadow-lg"
+    >
+      Skip to content
+    </a>
+    <Header />
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

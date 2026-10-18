@@ -1,0 +1,115 @@
+---
+import { Image } from 'astro:assets';
+import logo from '@/assets/images/logo-full.png';
+import { nav, lms, site } from '@/data/site';
+import NewTabIcon from '@/components/NewTabIcon.astro';
+
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path === href || path.startsWith(href);
+---
+
+<header class="site-header">
+  <nav aria-label="Main" class="container-site flex items-center justify-between gap-4">
+    <a href="/" class="shrink-0" aria-label={`${site.name} home`}>
+      <Image src={logo} alt={site.nameMarathi} widths={[180, 360]} sizes="180px" class="logo" loading="eager" />
+    </a>
+
+    <ul class="hidden items-center gap-1 lg:flex">
+      {nav.map((item) => (
+        <li>
+          <a href={item.href} class="nav-link" aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+        </li>
+      ))}
+      <li class="ml-3">
+        <a href={lms.loginUrl} class="btn btn-secondary login" target="_blank" rel="noopener">Log in<NewTabIcon /></a>
+      </li>
+    </ul>
+
+    <button type="button" id="nav-toggle" class="menu-btn lg:hidden" aria-expanded="false" aria-controls="mobile-menu">
+      <span class="sr-only">Menu</span>
+      <svg class="icon-open" aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+      <svg class="icon-close" aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+    </button>
+  </nav>
+
+  <div id="mobile-menu" class="mobile-menu lg:hidden" hidden>
+    <ul class="container-site grid gap-1 py-3">
+      {nav.map((item) => (
+        <li>
+          <a href={item.href} class="mobile-link" aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+        </li>
+      ))}
+      <li class="pt-3 pb-2">
+        <a href={lms.loginUrl} class="btn btn-secondary w-full" target="_blank" rel="noopener">Log in<NewTabIcon /></a>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('mobile-menu');
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    menu?.toggleAttribute('hidden', open);
+  });
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: #fff;
+    box-shadow: 0 2px 10px rgb(0 0 0 / 0.06);
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  nav { padding-block: 1.1rem; }
+  @media (min-width: 768px) { nav { padding-block: 1.4rem; } }
+  .logo { height: 46px; width: auto; display: block; }
+  @media (min-width: 768px) { .logo { height: 54px; } }
+
+  .nav-link {
+    display: block;
+    padding: 0.55rem 0.85rem;
+    border-radius: 0.6rem;
+    color: var(--color-ink);
+    font-weight: 700;
+    font-size: 1.15rem;
+    text-decoration: none;
+    transition: color 0.15s, background-color 0.15s;
+  }
+  .nav-link:hover { color: var(--color-green-ink); background: var(--color-green-soft); }
+  .nav-link[aria-current='page'] { color: var(--color-green-ink); box-shadow: inset 0 -3px 0 var(--color-orange); border-radius: 0; }
+  .login { min-height: 2.9rem; padding: 0.45rem 1.5rem; font-size: 1.1rem; }
+
+  .menu-btn {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.75rem;
+    color: var(--color-ink);
+  }
+  .menu-btn:hover { background: var(--color-green-soft); }
+  .menu-btn .icon-close { display: none; }
+  .menu-btn[aria-expanded='true'] .icon-open { display: none; }
+  .menu-btn[aria-expanded='true'] .icon-close { display: block; }
+  /* Scoped styles beat Tailwind's lg:hidden, so hide the phone menu explicitly on wide screens. */
+  @media (min-width: 1024px) {
+    .menu-btn, .mobile-menu { display: none; }
+  }
+
+  .mobile-menu { border-top: 1px solid var(--color-line); background: #fff; }
+  .mobile-link {
+    display: block;
+    padding: 0.75rem 0.5rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .mobile-link[aria-current='page'] { color: var(--color-green-ink); }
+</style>

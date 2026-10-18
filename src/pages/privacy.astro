@@ -1,0 +1,102 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { site } from '@/data/site';
+
+const updated = 'October 17, 2026';
+---
+
+<Base title="Privacy policy" description="How Barakhadi LLC collects, uses and protects information, including children's information.">
+  <PageHeader tone="red" title="Privacy policy" intro={`Last updated ${updated}`} />
+
+  <section class="section">
+    <div class="container-site">
+      <div class="prose-site text-ink-soft">
+        <p>
+          Barakhadi is run by {site.company}, a company registered in Virginia, USA ("we", "us"). This policy explains what information we collect through
+          www.barakhadi.com and the Barakhadi learning activities, how we use it, and the choices you have. Because Barakhadi is used by children, we take
+          particular care with their information.
+        </p>
+
+        <h2 class="text-ink">Information we collect</h2>
+        <h3 class="text-ink">When you contact us</h3>
+        <p>If you use our contact form or email us, we receive your name, email address and whatever you write in your message.</p>
+        <h3 class="text-ink">When you subscribe</h3>
+        <p>
+          To set up a student account we need the parent's or teacher's name and email address, and the student's name. Student accounts are hosted on our
+          learning platform, TalentLMS, which records the student's login, which activities they have completed, their scores and any assignments they submit.
+        </p>
+        <h3 class="text-ink">Payments</h3>
+        <p>
+          Payments are handled by our payment provider (Stripe). We never see or store full card numbers. We keep a record of what was purchased and when.
+        </p>
+        <h3 class="text-ink">Automatically collected information</h3>
+        <ul>
+          <li>Our website is hosted by Cloudflare, which processes technical data such as IP addresses to deliver pages and protect the site from abuse.</li>
+          <li>We use Cloudflare Web Analytics to count visits. It does not use cookies or track you across other websites.</li>
+          <li>The contact form uses Cloudflare Turnstile to check that a person, not a bot, is sending the message.</li>
+          <li>Videos are hosted by Wistia and only load when you press play.</li>
+          <li>Free trial activities and student accounts run on TalentLMS, which uses cookies needed to keep you logged in.</li>
+        </ul>
+        <p>This website does not use advertising cookies, and we do not sell or rent anyone's information.</p>
+
+        <h2 class="text-ink">How we use information</h2>
+        <ul>
+          <li>To create and manage student accounts and give access to the activities</li>
+          <li>To answer your questions and send information you asked for</li>
+          <li>To manage subscriptions and school packages</li>
+          <li>To keep the website and learning platform secure and working well</li>
+        </ul>
+
+        <h2 class="text-ink">Children's privacy</h2>
+        <p>
+          Barakhadi is designed for children, and we follow the U.S. Children's Online Privacy Protection Act (COPPA). Student accounts are created by a parent,
+          or by a teacher or school acting with the parent's consent. We collect only what is needed to run the activities: the student's name, login and learning
+          progress. We do not show ads to students and do not use their information for marketing.
+        </p>
+        <p>
+          The contact form on this website is meant for parents, teachers and adult learners. We do not knowingly collect personal information directly from
+          children under 13 through this website. If you believe a child has sent us information, contact us and we will delete it.
+        </p>
+        <p>
+          Parents can ask to review the information we hold about their child, correct it, or have it deleted, at any time, by emailing <strong>{site.email}</strong>.
+        </p>
+
+        <h2 class="text-ink">Who we share information with</h2>
+        <p>We share information only with service providers that help us run Barakhadi, and only as needed for that purpose:</p>
+        <ul>
+          <li>TalentLMS (Epignosis), which hosts student accounts and activities</li>
+          <li>Cloudflare, which hosts this website</li>
+          <li>Resend, which delivers emails sent from our contact form</li>
+          <li>Wistia, which hosts our videos</li>
+          <li>Stripe, which processes payments</li>
+        </ul>
+        <p>We may also disclose information if required by law.</p>
+
+        <h2 class="text-ink">How long we keep information</h2>
+        <p>
+          We keep student accounts while a subscription is active and for a reasonable period afterwards so that returning students keep their progress. You can
+          ask us to delete an account sooner. We keep contact messages only as long as needed to answer them and follow up.
+        </p>
+
+        <h2 class="text-ink">Security</h2>
+        <p>
+          We use reputable providers, encrypted connections (HTTPS) and limited access to accounts to protect information. No system is perfectly secure, but we
+          work to keep your information safe.
+        </p>
+
+        <h2 class="text-ink">Your choices and rights</h2>
+        <p>
+          You can ask us for a copy of your information, ask us to correct or delete it, or stop receiving emails from us. Depending on where you live (for example
+          the UK or the EU), you may have additional rights. Email <strong>{site.email}</strong> and we will respond.
+        </p>
+
+        <h2 class="text-ink">Changes to this policy</h2>
+        <p>If we change this policy we will update the date at the top of this page. For significant changes we will let subscribers know by email.</p>
+
+        <h2 class="text-ink">Contact</h2>
+        <p>{site.company}<br />Email: <strong>{site.email}</strong></p>
+      </div>
+    </div>
+  </section>
+</Base>

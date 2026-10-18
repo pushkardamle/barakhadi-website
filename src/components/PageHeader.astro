@@ -1,0 +1,51 @@
+---
+// Coloured band at the top of inner pages. Tones come from the logo; orange is kept for buttons.
+interface Props {
+  title: string;
+  intro?: string;
+  tone?: 'green' | 'blue' | 'red';
+}
+const { title, intro, tone = 'green' } = Astro.props;
+---
+
+<section class:list={['page-header', `tone-${tone}`]}>
+  <div class="container-site">
+    <h1>{title}</h1>
+    {intro && <p class="ph-intro">{intro}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-header {
+    position: relative;
+    overflow: hidden;
+    background: var(--band);
+    color: var(--hero-ink);
+    padding-block: 3.25rem;
+    /* Same height on every inner page (the band grows only if a page adds more, e.g. Who it's for's buttons) */
+    min-height: 15rem;
+    display: flex;
+    align-items: center;
+  }
+  @media (min-width: 768px) { .page-header { min-height: 17.5rem; } }
+  .page-header .container-site { width: 100%; }
+  .tone-green { --band: var(--hero-bg); }
+  .tone-blue { --band: linear-gradient(100deg, #5aa5dc 0%, #86bde6 50%, #d4e8f7 100%); }
+  .tone-red { --band: linear-gradient(100deg, #e8786d 0%, #ef9d95 50%, #fadbd7 100%); }
+  .page-header::after {
+    content: '';
+    position: absolute;
+    width: 30rem;
+    height: 30rem;
+    top: -12rem;
+    right: -12rem;
+    background: url('/icon-512.png') no-repeat center / contain;
+    opacity: 0.14;
+    rotate: 15deg;
+    pointer-events: none;
+  }
+  .page-header .container-site { position: relative; z-index: 1; }
+  h1 { margin: 0; font-size: clamp(2.3rem, 5.5vw, 3.6rem); font-weight: 800; letter-spacing: -0.01em; }
+  .ph-intro { margin-top: 0.9rem; max-width: 44rem; font-size: clamp(1.1rem, 1.8vw, 1.3rem); font-weight: 600; }
+</style>

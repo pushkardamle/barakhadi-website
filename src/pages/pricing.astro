@@ -1,0 +1,125 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { site } from '@/data/site';
+
+const studentFeatures = [
+  'Every activity in one level of your choice: शिशु वर्ग, पहिली or दुसरी',
+  'Conversation, reading and writing practice',
+  'Unlimited practice',
+  'Works on computers and tablets',
+  'Progress saved on every activity',
+];
+
+const schoolFeatures = [
+  'Everything in the student plan, for every student',
+  'A private space for each class or batch',
+  'Assign homework and grade assignments',
+  'Follow each student\'s progress',
+  'Ready-made lesson structure for 30 classes',
+  'Teacher training video',
+];
+
+const offer = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: 'Barakhadi annual subscription',
+  description: 'One year of access to every Barakhadi activity in one level, for one student.',
+  brand: { '@type': 'Brand', name: site.name },
+  offers: {
+    '@type': 'Offer',
+    price: String(site.priceUsdPerYear),
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/InStock',
+    url: new URL('/pricing/', site.url).href,
+  },
+};
+---
+
+<Base title="Pricing" description={`Barakhadi costs $${site.priceUsdPerYear} per student per level for a year. Discounts for more than one level and custom packages for Marathi shalas.`} schema={[offer]}>
+  <PageHeader tone="red" title="Simple, affordable pricing" intro="One price per student for a full level. Discounts for more than one level, and custom packages for Marathi shalas." />
+
+  <section class="section">
+    <div class="container-site grid gap-8 lg:grid-cols-2">
+      <article class="plan plan-main">
+        <p class="plan-label">For families and students</p>
+        <h2 class="plan-name">Student subscription</h2>
+        <p class="price"><span class="amount">${site.priceUsdPerYear}</span> <span class="per">per student, per level, per year</span></p>
+        <p class="note">That's $5 a month for a full year of one level.</p>
+        <ul class="features">
+          {studentFeatures.map((f) => (
+            <li>
+              <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              <span>{f}</span>
+            </li>
+          ))}
+        </ul>
+        <a href="/contact-us/?topic=subscribe" class="btn btn-primary w-full">Contact us to subscribe</a>
+        <p class="fine">We'll set up the student's account and email you the login details.</p>
+        <p class="multi">
+          <strong>Want more than one level?</strong> We offer a discounted price for two or three levels.{' '}
+          <a href="/contact-us/?topic=levels">Ask about multi-level pricing</a>
+        </p>
+      </article>
+
+      <article class="plan plan-school">
+        <p class="plan-label">For Marathi shalas and teachers</p>
+        <h2 class="plan-name">School package</h2>
+        <p class="price"><span class="amount small">Custom</span> <span class="per">based on your students and teachers</span></p>
+        <p class="note">Tell us about your class and we'll put together a package.</p>
+        <ul class="features">
+          {schoolFeatures.map((f) => (
+            <li>
+              <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              <span>{f}</span>
+            </li>
+          ))}
+        </ul>
+        <a href="/contact-us/?topic=school" class="btn btn-secondary w-full">Ask about school packages</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="section bg-mist">
+    <div class="container-site grid gap-8 md:grid-cols-2 lg:items-center">
+      <div>
+        <h2 class="h-section">Not sure yet?</h2>
+        <p class="lede mt-3">Try three free activities first. No signup, no card.</p>
+      </div>
+      <div class="flex flex-wrap gap-4 md:justify-end">
+        <a href="/#try-free" class="btn btn-primary">Try free activities</a>
+        <a href="/faq/" class="btn btn-secondary">Read the FAQ</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .plan {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 2.25rem;
+    border: 3px solid var(--color-line);
+    border-radius: 1.5rem;
+    background: #fff;
+  }
+  .plan-main { border-color: var(--color-green); box-shadow: 0 18px 40px rgb(17 155 73 / 0.15); }
+  .plan-school { border-color: var(--color-blue); }
+  .plan-school .plan-label { color: var(--color-blue); }
+  .plan-school .btn-secondary { color: var(--color-blue); border-color: var(--color-blue); }
+  .plan-school .btn-secondary:hover { background: var(--color-blue); color: #fff; }
+  .plan-label { font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.85rem; color: var(--color-green-ink); }
+  .plan-name { font-size: 1.9rem; }
+  .price { margin-top: 0.75rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem 0.75rem; }
+  .amount { font-family: var(--font-display); font-size: 4rem; font-weight: 800; line-height: 1; color: var(--color-ink); }
+  .amount.small { font-size: 2.8rem; }
+  .per { font-weight: 700; color: var(--color-ink-soft); }
+  .note { color: var(--color-ink-soft); }
+  .features { margin: 1.25rem 0 1.75rem; display: grid; gap: 0.7rem; flex: 1; align-content: start; }
+  .features li { display: flex; gap: 0.7rem; align-items: flex-start; font-weight: 600; }
+  .features svg { flex: none; margin-top: 0.2rem; color: var(--color-green); }
+  .fine { margin-top: 0.75rem; font-size: 0.92rem; color: var(--color-ink-soft); text-align: center; }
+  .multi { margin-top: 1.25rem; padding: 1rem 1.1rem; border-radius: 1rem; background: var(--color-orange-soft); font-size: 0.98rem; }
+  .multi a { display: inline-block; margin-top: 0.25rem; font-weight: 800; color: var(--color-orange-ink); }
+</style>

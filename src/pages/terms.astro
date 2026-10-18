@@ -1,0 +1,95 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { site } from '@/data/site';
+
+const updated = 'October 17, 2026';
+---
+
+<Base title="Terms of service" description="The terms for using the Barakhadi website and Marathi learning activities.">
+  <PageHeader tone="blue" title="Terms of service" intro={`Last updated ${updated}`} />
+
+  <section class="section">
+    <div class="container-site">
+      <div class="prose-site text-ink-soft">
+        <p>
+          These terms apply to www.barakhadi.com and the Barakhadi learning activities (together, "Barakhadi"), provided by {site.company}, Virginia, USA ("we",
+          "us"). By using Barakhadi or subscribing, you agree to these terms. If you subscribe on behalf of a child or a class, you agree to them on their behalf.
+        </p>
+
+        <h2 class="text-ink">The service</h2>
+        <p>
+          Barakhadi is a set of interactive Marathi learning activities. The activities are hosted on our learning platform, TalentLMS, and accessed with a login we
+          provide. We may add, update or retire activities over time to improve the program.
+        </p>
+
+        <h2 class="text-ink">Accounts</h2>
+        <ul>
+          <li>Each student account is for one student. Please don't share logins.</li>
+          <li>Give us accurate information and keep login details private.</li>
+          <li>Parents and teachers are responsible for how the children they create accounts for use Barakhadi.</li>
+        </ul>
+
+        <h2 class="text-ink">Subscriptions and payment</h2>
+        <ul>
+          <li>A student subscription costs ${site.priceUsdPerYear} per student per level per year, unless we agree a different price with you (for example a multi-level discount or a school package).</li>
+          <li>A subscription gives access to the activities in the chosen level(s) for 12 months from the date the account is activated.</li>
+          <li>We will remind you before access ends and explain how to renew.</li>
+          <li>School packages follow the terms agreed with the school.</li>
+        </ul>
+
+        <h2 class="text-ink">Refunds</h2>
+        <p>
+          If Barakhadi isn't right for you, email us at <strong>{site.email}</strong> within 14 days of your subscription starting and we will refund you in full.
+        </p>
+
+        <h2 class="text-ink">Acceptable use</h2>
+        <p>Please don't misuse Barakhadi. In particular, don't:</p>
+        <ul>
+          <li>copy, resell or redistribute the activities or their content;</li>
+          <li>try to access accounts or parts of the platform that aren't yours;</li>
+          <li>interfere with the website or platform, or use automated tools to scrape it.</li>
+        </ul>
+
+        <h2 class="text-ink">Our content</h2>
+        <p>
+          The activities, lessons, illustrations, audio, videos and the Barakhadi name and logo belong to {site.company} or our licensors. Your subscription lets
+          the student use them for personal learning (or classroom use, for school packages). It doesn't transfer any ownership.
+        </p>
+
+        <h2 class="text-ink">Third-party services</h2>
+        <p>
+          Barakhadi relies on providers such as TalentLMS, Cloudflare, Wistia and Stripe. Their own terms also apply when you use their parts of the service. We
+          aren't responsible for outages or changes on their side, but we will do our best to keep Barakhadi running smoothly.
+        </p>
+
+        <h2 class="text-ink">Disclaimers</h2>
+        <p>
+          We work hard to make Barakhadi accurate, available and useful, but it is provided "as is". We don't promise that it will always be available or
+          error-free, or that it will produce a particular learning result.
+        </p>
+
+        <h2 class="text-ink">Limitation of liability</h2>
+        <p>
+          To the extent the law allows, our total liability for any claim related to Barakhadi is limited to the amount you paid us in the 12 months before the
+          claim. We are not liable for indirect or consequential losses.
+        </p>
+
+        <h2 class="text-ink">Ending access</h2>
+        <p>
+          You can stop using Barakhadi at any time. We may suspend or close an account that breaks these terms. If we stop offering Barakhadi, we will refund the
+          unused part of any paid subscription.
+        </p>
+
+        <h2 class="text-ink">Governing law</h2>
+        <p>These terms are governed by the laws of the Commonwealth of Virginia, USA.</p>
+
+        <h2 class="text-ink">Changes</h2>
+        <p>We may update these terms. We will change the date at the top of this page, and tell subscribers by email about significant changes.</p>
+
+        <h2 class="text-ink">Contact</h2>
+        <p>{site.company}<br />Email: <strong>{site.email}</strong></p>
+      </div>
+    </div>
+  </section>
+</Base>

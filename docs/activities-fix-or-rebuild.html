@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Barakhadi Activities: Fix or Rebuild</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Same visual system as the rebuild assessment: workbook layout, barakhadi section markers. */
+:root {
+  --bg: #FAFCF8; --surface: #F0F5EE; --surface-2: #FFFFFF; --ink: #17261D; --muted: #56645B; --line: #DCE5DA;
+  --green: #0F8A41; --green-fill: #119B49; --orange: #A85500; --orange-fill: #FF9500; --orange-soft: #FFF1DC;
+  --blue: #1B6FB3; --blue-soft: #E3F0FA; --crit: #B3261E; --crit-soft: #FBE5E3; --warn: #8A5A00; --warn-soft: #FFF3D6;
+  --ok: #0F7A3B; --ok-soft: #E2F4E8;
+  --font-display: "Baloo 2", "Trebuchet MS", system-ui, sans-serif;
+  --font-body: "Nunito", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  --radius: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111713; --surface: #18211B; --surface-2: #1D2720; --ink: #E6EEE8; --muted: #9DAAA2; --line: #2B372F;
+    --green: #4CC97E; --green-fill: #1FA557; --orange: #FFB454; --orange-soft: #33270F; --blue: #6DB3EA; --blue-soft: #15283A;
+    --crit: #FF8A80; --crit-soft: #3A1A18; --warn: #F2C063; --warn-soft: #33290F; --ok: #6AD69A; --ok-soft: #14301F; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111713; --surface: #18211B; --surface-2: #1D2720; --ink: #E6EEE8; --muted: #9DAAA2; --line: #2B372F;
+  --green: #4CC97E; --green-fill: #1FA557; --orange: #FFB454; --orange-soft: #33270F; --blue: #6DB3EA; --blue-soft: #15283A;
+  --crit: #FF8A80; --crit-soft: #3A1A18; --warn: #F2C063; --warn-soft: #33290F; --ok: #6AD69A; --ok-soft: #14301F; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 1rem; line-height: 1.6; }
+a { color: var(--blue); }
+code { font-family: var(--font-mono); font-size: 0.86em; background: var(--surface); border: 1px solid var(--line); border-radius: 5px; padding: 0.05em 0.35em; overflow-wrap: anywhere; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h2 { font-size: 2rem; } h3 { font-size: 1.2rem; }
+p { margin: 0; max-width: 70ch; }
+ul, ol { margin: 0; padding-left: 1.25rem; max-width: 72ch; }
+li + li { margin-top: 0.3rem; }
+.wrap { max-width: 1000px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.masthead { background: var(--surface); border-bottom: 1px solid var(--line); }
+.masthead .wrap { padding-block: 2.5rem 2rem; display: grid; gap: 0.9rem; }
+.kicker { font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.masthead h1 { font-size: clamp(2rem, 6vw, 2.75rem); font-weight: 800; }
+.lede { font-size: 1.15rem; color: var(--muted); }
+main { display: grid; gap: 3.25rem; padding-block: 2.5rem 4rem; }
+section { display: grid; gap: 1.1rem; min-width: 0; }
+.sec-head { display: grid; grid-template-columns: auto 1fr; gap: 0.2rem 1rem; align-items: center; }
+.sec-head .mk { font-family: var(--font-display); font-weight: 700; font-size: 1.9rem; width: 3rem; height: 3rem; display: grid; place-items: center; border-radius: 50%; background: var(--orange-soft); color: var(--orange); grid-row: span 2; }
+.sec-head .sub { color: var(--muted); font-size: 0.9rem; }
+.callout { border-radius: var(--radius); padding: 1rem 1.15rem; display: grid; gap: 0.5rem; background: var(--surface-2); border: 1px solid var(--line); }
+.callout.rec { background: var(--blue-soft); border-color: transparent; }
+.callout.ok { background: var(--ok-soft); border-color: transparent; }
+.callout.crit { background: var(--crit-soft); border-color: transparent; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 1rem; }
+.col { background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.1rem; display: grid; gap: 0.55rem; align-content: start; min-width: 0; }
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); }
+table { border-collapse: collapse; width: 100%; font-size: 0.93rem; }
+th, td { text-align: left; vertical-align: top; padding: 0.65rem 0.8rem; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font-family: var(--font-mono); font-weight: 600; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); background: var(--surface); }
+td.k { font-weight: 700; min-width: 9rem; }
+.compare td { min-width: 170px; }
+.pill { display: inline-block; padding: 0.05rem 0.6rem; border-radius: 999px; font-size: 0.78rem; font-weight: 700; white-space: nowrap; }
+.pill.ok { background: var(--ok-soft); color: var(--ok); } .pill.high { background: var(--warn-soft); color: var(--warn); }
+.pill.crit { background: var(--crit-soft); color: var(--crit); } .pill.med { background: var(--blue-soft); color: var(--blue); }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 0.75rem; }
+.fact { background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 0.9rem 1rem; display: grid; gap: 0.2rem; }
+.fact .label { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+.fact .val { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; line-height: 1.2; }
+.steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; counter-reset: s; max-width: none; }
+.steps li { margin: 0; display: grid; grid-template-columns: 2.4rem 1fr; gap: 0.85rem; background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 0.9rem 1rem; }
+.steps li::before { counter-increment: s; content: counter(s); font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; width: 2.4rem; height: 2.4rem; border-radius: 50%; display: grid; place-items: center; background: var(--blue-soft); color: var(--blue); }
+.steps .when { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+pre { margin: 0; overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 0.8rem 1rem; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.5; }
+.small { font-size: 0.9rem; } .muted { color: var(--muted); }
+.foot { border-top: 1px solid var(--line); color: var(--muted); font-size: 0.85rem; }
+.foot .wrap { padding-block: 1.5rem 2.5rem; }
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="wrap">
+    <span class="kicker">TalentLMS activities · diagnosis and options</span>
+    <h1>Barakhadi Activities: Fix or Rebuild</h1>
+    <p class="lede">Why the activities show scrollbars, a fix that costs almost nothing, and whether it's worth rebuilding the Storyline activities in modern HTML5 with AI.</p>
+    <p class="small muted">Prepared 18 Oct 2026 for Pushkar · based on inspecting the live free activity "Sem. 1 - Week 1 - Conversation" and current TalentLMS and Articulate documentation.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section>
+    <div class="sec-head"><span class="mk" aria-hidden="true">क</span><h2>Short answer</h2><span class="sub">Both questions</span></div>
+    <div class="callout rec">
+      <p><b>Scrollbars:</b> not a TalentLMS limitation. The activities were published from Storyline with the player <b>locked at 960×640</b>, so they can't shrink to fit TalentLMS's frame (about 890×540 on a typical laptop). Changing one line in each published package makes them scale to any screen. No Storyline licence needed.</p>
+      <p><b>Rebuild:</b> worth it, but not as one big rewrite. The current files are Storyline 3 from 2017. They still work on desktop, but their tablet handling points to an app that no longer exists, and they're hard to change. Rebuild <b>gradually, starting with the new self-learner (indml) course copies you already plan to make</b>. Do a small pilot first to measure the real effort. AI can build the activity engines and handle most of the content conversion. The slow part is checking every activity by hand.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="mk" aria-hidden="true">का</span><h2>What I found in the live activity</h2><span class="sub">Read from the files TalentLMS serves</span></div>
+    <div class="facts">
+      <div class="fact"><span class="label">Authoring tool</span><span class="val">Storyline 3 (v3.2)</span><span class="small muted">Released around 2017. Now superseded by Storyline 360.</span></div>
+      <div class="fact"><span class="label">Format</span><span class="val">Tin Can (xAPI)</span><span class="small muted">Reports to TalentLMS's built-in xAPI store. Not SCORM.</span></div>
+      <div class="fact"><span class="label">Uploaded</span><span class="val">January 2018</span><span class="small muted">From the timestamp in the package folder name.</span></div>
+      <div class="fact"><span class="label">Player size</span><span class="val">Locked 960×640</span><span class="small muted"><code>scale: 'noscale'</code>, Storyline's "Lock player at optimal size".</span></div>
+    </div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Device</th><th>What happens</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td class="k">Laptop (1366×768)</td><td><span class="pill crit">Scrollbars</span> Both scrollbars appear and the bottom of the activity is cut off.</td><td>TalentLMS gives the unit a frame of about 890×540. The activity won't shrink below 960×640.</td></tr>
+          <tr><td class="k">Large monitor</td><td><span class="pill high">White space</span> The activity sits small in a large empty frame.</td><td>It won't grow beyond 960×640 either.</td></tr>
+          <tr><td class="k">iPad / Android tablet</td><td><span class="pill crit">Likely broken</span> Needs testing on a real device.</td><td>The launcher sends tablets first to <code>amplaunch.html</code>, a page that asks learners to install the old <b>Articulate Mobile Player</b> app from the App Store. As far as I know that app has been retired. Flash, the second choice, is dead everywhere.</td></tr>
+          <tr><td class="k">Desktop browsers</td><td><span class="pill ok">Works</span> Apart from the sizing.</td><td>They fall through to the HTML5 player, the third choice.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="mk" aria-hidden="true">कि</span><h2>Fixing the scrollbars</h2><span class="sub">Three options, cheapest first</span></div>
+    <div class="cols">
+      <div class="col">
+        <h3>A · Patch the published packages</h3>
+        <p class="small"><span class="pill ok">Recommended now</span></p>
+        <p class="small">Change two lines in each package, then re-zip:</p>
+<pre>story_html5.html:  scale: 'noscale'  →  scale: 'show all'
+story.html:        remove the "amp" (mobile app) entry
+                   from runtimeOrder, so tablets go
+                   straight to the HTML5 player</pre>
+        <p class="small">This can be scripted for every package in a few minutes. It needs the published package zips, either your originals or downloads from TalentLMS. Then replace each unit's file in TalentLMS.</p>
+      </div>
+      <div class="col">
+        <h3>B · TalentLMS unit settings</h3>
+        <p class="small"><span class="pill med">Partial</span></p>
+        <p class="small">xAPI/SCORM units have <b>Show as: Embedded or Pop-up</b> and a <b>Size (width × height)</b> setting. Pop-up at 980×680 would show the activity without scrollbars, but in a separate window. That's clumsy for kids, and it doesn't fix tablets. Useful as a stopgap if you can't get the packages.</p>
+      </div>
+      <div class="col">
+        <h3>C · Republish in Storyline 360</h3>
+        <p class="small"><span class="pill high">Costly</span></p>
+        <p class="small">Open each <code>.story</code> file in Storyline 360 and republish with "Scale player to fill browser". You get the modern responsive player. It needs the source files and an Articulate 360 subscription (about $1,449 a year), and it's manual work for every activity. Storyline 3 files still upgrade automatically. Turn on "Modern Text", because Storyline has had Devanagari vowel-sign bugs.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <p class="small"><b>Before rolling out A:</b> test it on one activity in a copy of a course. Replacing a unit's file may reset that unit's learner records (unverified), so check before touching courses that students are using. Test on a laptop, an iPad and a phone.</p>
+    </div>
+    <div class="callout">
+      <p class="small"><b>The 50% / 66% progress:</b> this is caused by the assignment unit, not the activity format. An assignment set to complete "When the instructor accepts the answer" stays pending until someone grades it, so 1 of 2 units shows 50% and 2 of 3 shows 66%. That's my inference; TalentLMS doesn't publish the formula. Your indml copies without assignments solve it. So does setting the course to "Completed when: selected units are completed".</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="mk" aria-hidden="true">की</span><h2>Should you rebuild?</h2><span class="sub">Four paths compared</span></div>
+    <div class="tbl compare">
+      <table>
+        <thead><tr><th></th><th>Patch only</th><th>Republish in Storyline 360</th><th>H5P packaged as SCORM</th><th>Custom HTML5 engines (AI-built)</th></tr></thead>
+        <tbody>
+          <tr><td class="k">Cost</td><td>Near zero</td><td>About $1,449/yr plus manual republishing</td><td>Free tools</td><td>Your time and AI. No licences.</td></tr>
+          <tr><td class="k">Phones and tablets</td><td>Scales, but still a 2017 player</td><td>Good (modern player)</td><td>Good</td><td>Designed for touch from the start</td></tr>
+          <tr><td class="k">Marathi text in games</td><td>As today</td><td>Has known vowel-sign bugs</td><td><span class="pill crit">Weak</span> Word search and crossword don't handle Indic syllables</td><td>Full control: grids split words by akshara</td></tr>
+          <tr><td class="k">Your custom activities</td><td>Kept as they are</td><td>Kept as they are</td><td>Only standard types. No tracing or colouring.</td><td>Rebuilt, with animations re-created (the hard part)</td></tr>
+          <tr><td class="k">Changing content later</td><td>Needs the Storyline source</td><td>Storyline only</td><td>H5P editor</td><td>Edit a data file, or ask Claude</td></tr>
+          <tr><td class="k">Lock-in</td><td>Storyline</td><td>Storyline subscription</td><td>Low</td><td>None. It's your own code.</td></tr>
+          <tr><td class="k">Verdict</td><td><span class="pill ok">Do now</span></td><td><span class="pill high">Only if you have the .story files and want to keep Storyline</span></td><td><span class="pill crit">Poor fit</span></td><td><span class="pill ok">Long-term direction, via a pilot</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="mk" aria-hidden="true">कु</span><h2>How a rebuild would work</h2><span class="sub">Engines plus data, not 300 one-off files</span></div>
+    <p>Your 300+ activities are probably built from a dozen or so <b>activity types</b>: conversation dialogue, crossword, word search, join the dots, tracing, colouring, listen and match, picture prepositions, and so on. A rebuild would create <b>one engine per type</b>, and each activity becomes a small data file listing its words, images, audio and correct answers:</p>
+<pre>{
+  "type": "crossword",
+  "title": "प्राणी - Animals",
+  "level": 1,
+  "words": [
+    { "answer": "गाय", "clue": "cow.png", "audio": "gaay.mp3" },
+    { "answer": "मांजर", "clue": "cat.png", "audio": "manjar.mp3" }
+  ]
+}</pre>
+    <p>A build step turns each data file into an xAPI (or SCORM 1.2) package for TalentLMS, so tracking keeps working. TalentLMS accepts packages up to 600 MB, so each package can be self-contained.</p>
+    <div class="cols">
+      <div class="col">
+        <h3>What AI does well here</h3>
+        <ul class="small">
+          <li>Writes the engines: touch-friendly, scaling, accessible, and reporting scores to TalentLMS.</li>
+          <li>Handles Marathi correctly, for example splitting words into aksharas (क्ष, ज्ञ) for grids.</li>
+          <li>Reads the old Storyline output (<code>data.js</code>, the slide files) and pulls out the words, answers and media, so you don't retype content.</li>
+          <li>Reuses your existing audio and illustrations directly from the packages.</li>
+          <li>Generates new activities from a word list once the engines exist.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>What still needs a person</h3>
+        <ul class="small">
+          <li>Checking every converted activity: correct answers, audio in sync, nothing missing.</li>
+          <li>Re-creating bespoke character animations. Simpler motion is fine; frame-perfect copies take real work.</li>
+          <li>Teaching judgment: what to keep, merge or improve.</li>
+          <li>Recording any new audio.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">
+      <p class="small"><b>Realistic effort:</b> nobody has published a case study of AI automatically converting Storyline courses. Teams that do this rebuild with AI help, which is what I'm proposing. Building an engine is roughly a few working sessions per activity type. The long pole is checking 300+ activities: at 10–15 minutes each, that's roughly 50–75 hours spread over time. A pilot will turn these guesses into real numbers.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="mk" aria-hidden="true">कू</span><h2>Recommended path</h2><span class="sub">Small steps, each useful on its own</span></div>
+    <ol class="steps">
+      <li><div><span class="when">This week</span><p><b>Patch one activity, test it, then patch the rest.</b> Scaling fixed and the tablet app redirect removed. This helps every current student immediately.</p></div></li>
+      <li><div><span class="when">Next</span><p><b>Pilot: rebuild two activity types</b>, for example the Week 1 conversation and one game such as the crossword. Run them in TalentLMS side by side with the originals, on a laptop, an iPad and a phone, and show them to a few kids and teachers.</p></div></li>
+      <li><div><span class="when">If the pilot wins</span><p><b>Build the indml (self-learner) courses in the new format.</b> You were going to copy every course anyway to remove the assignments. Making those copies modern versions turns one chore into an upgrade, and self-learners arriving from the new website get the best experience.</p></div></li>
+      <li><div><span class="when">Over time</span><p><b>Move the school courses across</b> type by type, as each engine proves itself. The patched Storyline versions keep working meanwhile.</p></div></li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="mk" aria-hidden="true">के</span><h2>What I need from you</h2><span class="sub">For the patch and the pilot</span></div>
+    <ul>
+      <li><b>Published package zips</b> for 3–5 activities of different types: a conversation, a crossword or word search, tracing or colouring, and join the dots. They're the files you uploaded to TalentLMS. If you don't have them, check whether TalentLMS lets you download a unit's file.</li>
+      <li><b>The <code>.story</code> source files</b> for the same activities, if you still have them. They're useful but not required.</li>
+      <li><b>A rough list of activity types</b> and how many of each. Or, with your new API key, I can list every course and unit from TalentLMS read-only.</li>
+      <li><b>A course we can safely test in</b>, such as a copy of one week, so the patch doesn't touch active students.</li>
+      <li>If you know it: roughly <b>how many students use tablets or phones</b>.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="mk" aria-hidden="true">कै</span><h2>Notes and sources</h2><span class="sub">What's verified and what isn't</span></div>
+    <ul class="small">
+      <li><b>Verified directly:</b> the Storyline version, xAPI format, upload date, player settings, slide size and launcher order. I read them from the files served for the free activity (key EOSNHRKM). I also screenshotted the frame size at 1366×768.</li>
+      <li><b>From TalentLMS docs:</b>
+        <ul>
+          <li>xAPI/cmi5 units use the built-in xAPI store.</li>
+          <li>SCORM support is 1.2 single-package only (no SCORM 2004).</li>
+          <li>Units have Embedded/Pop-up and width/height options.</li>
+          <li>Packages can be up to 600 MB.</li>
+          <li>xAPI units don't run in the TalentLMS mobile app.</li>
+        </ul>
+        Unverified: whether the size option applies to embedded units, and where the learner's full-screen button is.</li>
+      <li><b>From Articulate:</b> current player options and Articulate 360 pricing (about $1,449/yr personal). Storyline 2 and 3 files still upgrade in Storyline 360; Storyline 1 files need Articulate support since August 2026.</li>
+      <li>The full research notes, with 78 cited sources, are in <code>docs/research/elearning_research.md</code>.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="foot"><div class="wrap">Barakhadi Activities: Fix or Rebuild · 18 Oct 2026</div></footer>
+</body>
+</html>

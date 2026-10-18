@@ -1,0 +1,136 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { allFaqs, faqGroups } from '@/data/faq';
+
+// Turn an answer string into paragraphs and bullet lists.
+const blocks = (text: string) => {
+  const out: { type: 'p' | 'ul'; items: string[] }[] = [];
+  for (const line of text.split('\n')) {
+    if (line.startsWith('- ')) {
+      const last = out.at(-1);
+      if (last?.type === 'ul') last.items.push(line.slice(2));
+      else out.push({ type: 'ul', items: [line.slice(2)] });
+    } else if (line.trim()) {
+      out.push({ type: 'p', items: [line] });
+    }
+  }
+  return out;
+};
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: allFaqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a.replace(/\n- /g, '\n• ') },
+  })),
+};
+---
+
+<Base title="Frequently asked questions" description="Answers about Barakhadi: who it's for, how it works in Marathi shalas and at home, devices, levels, pricing and how to subscribe." schema={[schema]}>
+  <PageHeader tone="red" title="Frequently asked questions" intro="Everything families and teachers usually ask about Barakhadi." />
+
+  <section class="section">
+    <div class="container-site grid gap-14 lg:grid-cols-[16rem_minmax(0,1fr)]">
+      <nav aria-label="FAQ topics" class="hidden lg:block">
+        <ul class="sticky top-36 grid gap-1">
+          {faqGroups.map((g, i) => (
+            <li><a href={`#topic-${i}`} class="topic-link">{g.heading}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="grid gap-14">
+        {faqGroups.map((g, i) => (
+          <div id={`topic-${i}`} class="scroll-mt-32">
+            <h2 class="text-2xl md:text-3xl">{g.heading}</h2>
+            <div class="mt-5 grid gap-3">
+              {g.items.map((f) => (
+                <details class="faq">
+                  <summary>
+                    <span>{f.q}</span>
+                    <span class="faq-icon" aria-hidden="true"></span>
+                  </summary>
+                  <div class="faq-body">
+                    {blocks(f.a).map((b) =>
+                      b.type === 'p' ? <p>{b.items[0]}</p> : <ul>{b.items.map((li) => <li>{li}</li>)}</ul>,
+                    )}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        <div class="ask">
+          <h2 class="text-2xl">Don't see your question?</h2>
+          <p class="mt-2 text-ink-soft">Write to us and we'll get back to you.</p>
+          <a href="/contact-us/" class="btn btn-primary mt-5">Contact us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .topic-link {
+    display: block;
+    padding: 0.45rem 0.75rem;
+    border-radius: 0.6rem;
+    color: var(--color-ink-soft);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .topic-link:hover { background: var(--color-green-soft); color: var(--color-green-ink); }
+
+  .faq {
+    border: 2px solid var(--color-line);
+    border-radius: 1rem;
+    background: #fff;
+    transition: border-color 0.15s;
+  }
+  .faq[open] { border-color: var(--color-green); }
+  .faq summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.1rem 1.25rem;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    line-height: 1.35;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq-icon {
+    flex: none;
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--color-green-soft);
+  }
+  .faq-icon::before,
+  .faq-icon::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0.85rem;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--color-green-ink);
+    translate: -50% -50%;
+    transition: rotate 0.2s ease;
+  }
+  .faq-icon::after { rotate: 90deg; }
+  .faq[open] .faq-icon::after { rotate: 0deg; }
+  .faq-body { padding: 0 1.25rem 1.25rem; color: var(--color-ink-soft); display: grid; gap: 0.75rem; max-width: 68ch; }
+  .faq-body ul { list-style: disc; padding-left: 1.3rem; display: grid; gap: 0.35rem; }
+
+  .ask { padding: 2rem; border-radius: var(--radius-card); background: var(--color-cream); }
+</style>

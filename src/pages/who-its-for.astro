@@ -1,0 +1,162 @@
+---
+import { Image } from 'astro:assets';
+import Base from '@/layouts/Base.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { site } from '@/data/site';
+// Screenshots not used on the home page (no activity image repeats across the main pages).
+import parentsShot from '@/assets/activities/ss_vocab_cover.png';
+import schoolsShot from '@/assets/activities/ss_writing_letter_ga.png';
+import learnersShot from '@/assets/activities/ss_vocab_filmstrip.png';
+
+const audiences = [
+  {
+    id: 'parents',
+    label: 'For parents',
+    tone: 'red',
+    quote: "I want my kids to speak Marathi with their grandparents and understand our culture, but I don't have time to teach them myself.",
+    paragraphs: [
+      "Between work, school and everything else, finding time to teach Marathi at home is hard. That's exactly why Barakhadi exists.",
+      'Kids learn through play: activities that feel like games, not homework. They practice conversations, learn to read Devanagari and write their first Marathi words, at their own pace.',
+    ],
+    points: [
+      'Self-paced: kids work at their own speed, with no pressure',
+      'Progress you can see, activity by activity',
+      'Works on a computer, tablet or phone',
+      'Unlimited practice: repeat any activity as often as needed',
+    ],
+    image: parentsShot,
+    alt: 'Vocabulary module start screen with cartoon children, a sun and an elephant',
+    cta: { href: '/pricing/', label: 'See pricing' },
+  },
+  {
+    id: 'schools',
+    label: 'For Marathi shalas and teachers',
+    tone: 'green',
+    quote: 'I need structured lessons that keep students engaged, but I don\'t have time to create everything from scratch.',
+    paragraphs: [
+      'Barakhadi gives weekend Marathi schools and community classes a ready-to-use program designed by experienced Marathi teachers. It is built for 30 classes, and each class comes with a conversation topic, a vocabulary game and writing practice.',
+      'Every class gets its own private space. Teachers assign activities as homework, grade assignments and follow each student\'s progress, and students only ever see their own class.',
+    ],
+    points: [
+      `${site.activityCount} activities across three levels`,
+      'Week-by-week lesson structure, ready for the classroom',
+      'Assignments and grading built in',
+      'A private space for each class or batch',
+      'Packages customised for your number of students and teachers',
+    ],
+    image: schoolsShot,
+    alt: 'Writing lesson showing how to write the letter ग, with a play button',
+    cta: { href: '/contact-us/?topic=school', label: 'Ask about school packages' },
+  },
+  {
+    id: 'learners',
+    label: 'For teens and adult learners',
+    tone: 'blue',
+    quote: 'I grew up hearing Marathi but never learned to read or write it. I want to connect with my roots, but I don\'t know where to start.',
+    paragraphs: [
+      "It's never too late. Whether you're reconnecting with your heritage, planning a trip to Maharashtra or just curious, Barakhadi meets you where you are.",
+      'Start with the alphabet, work up to reading and writing, and practice everyday conversations, all at your own speed. High school students can also use the higher levels to practice for their state\'s Seal of Biliteracy exam.',
+    ],
+    points: [
+      'Start from zero or brush up on the basics',
+      'Real-world conversations you will actually use',
+      'No deadlines: learn whenever it suits you',
+    ],
+    image: learnersShot,
+    alt: 'Vocabulary activity: a filmstrip of pictures for words with ड and the sentence डोंगरावर निवडुंगाची झाडे होती',
+    cta: { href: '/#try-free', label: 'Try a free activity' },
+  },
+];
+---
+
+<Base title="Who it's for" description="Barakhadi is for parents teaching Marathi at home, Marathi shalas and teachers running classes, and teens and adults learning on their own.">
+  <PageHeader tone="blue" title="Made for every Marathi learner" intro="Whether you're a parent, a teacher or learning for yourself, Barakhadi makes Marathi engaging and fun.">
+    <ul class="jump">
+      {audiences.map((a) => (
+        <li><a href={`#${a.id}`} class={`jump-link tone-${a.tone}`}>{a.label.replace('For ', '')}</a></li>
+      ))}
+    </ul>
+  </PageHeader>
+
+  {audiences.map((a, i) => (
+    <section id={a.id} class:list={['section scroll-mt-32', { 'bg-mist': i % 2 === 1 }]}>
+      <div class:list={['container-site audience', { reverse: i % 2 === 1 }]}>
+        <div>
+          <h2 class={`aud-title tone-${a.tone}`}>{a.label}</h2>
+          <blockquote class={`quote tone-${a.tone}`}>“{a.quote}”</blockquote>
+          <div class="mt-6 grid gap-4 text-ink-soft">
+            {a.paragraphs.map((p) => <p>{p}</p>)}
+          </div>
+          <ul class="points">
+            {a.points.map((p) => (
+              <li>
+                <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                <span>{p}</span>
+              </li>
+            ))}
+          </ul>
+          <a href={a.cta.href} class="btn btn-primary mt-8">{a.cta.label}</a>
+        </div>
+        <div class="shot">
+          <Image src={a.image} alt={a.alt} widths={[480, 720, 1080]} sizes="(min-width: 968px) 520px, 100vw" />
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="final">
+    <div class="container-site flex flex-wrap items-center justify-between gap-6 py-14">
+      <h2 class="text-3xl text-white md:text-4xl">Ready to get started?</h2>
+      <div class="flex flex-wrap gap-4">
+        <a href="/pricing/" class="btn btn-primary">View pricing</a>
+        <a href="/contact-us/" class="btn btn-outline-light">Contact us</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .tone-red { --tone: var(--color-red); --tone-ink: var(--color-red-ink); --tone-soft: var(--color-red-soft); }
+  .tone-green { --tone: var(--color-green); --tone-ink: var(--color-green-ink); --tone-soft: var(--color-green-soft); }
+  .tone-blue { --tone: var(--color-blue); --tone-ink: var(--color-blue); --tone-soft: var(--color-blue-soft); }
+
+  .jump { margin-top: 1.75rem; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .jump-link {
+    display: inline-block;
+    padding: 0.55rem 1.2rem;
+    border-radius: var(--radius-pill);
+    background: #fff;
+    color: var(--tone-ink);
+    font-weight: 800;
+    text-decoration: none;
+    border: 2px solid var(--tone);
+    transition: background-color 0.15s ease, transform 0.15s ease;
+  }
+  .jump-link::first-letter { text-transform: uppercase; }
+  .jump-link:hover { background: var(--tone-soft); transform: translateY(-2px); }
+
+  .audience { display: grid; gap: 3rem; align-items: center; }
+  @media (min-width: 968px) {
+    .audience { grid-template-columns: 1.1fr 0.9fr; gap: 4.5rem; }
+    .audience.reverse > :first-child { order: 2; }
+  }
+  .aud-title { font-size: clamp(1.8rem, 3.4vw, 2.4rem); color: var(--tone-ink); }
+  .quote {
+    margin-top: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-left: 6px solid var(--tone);
+    border-radius: 0 1rem 1rem 0;
+    background: var(--tone-soft);
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.2vw, 1.55rem);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .points { margin-top: 1.5rem; display: grid; gap: 0.75rem; }
+  .points li { display: flex; gap: 0.7rem; align-items: flex-start; font-weight: 600; }
+  .points svg { flex: none; margin-top: 0.2rem; color: var(--color-green); }
+  .shot { padding: 6px; background: #fff; border-radius: var(--radius-card); box-shadow: 0 18px 40px rgb(0 0 0 / 0.14); rotate: 1.5deg; }
+  .reverse .shot { rotate: -1.5deg; }
+  .shot img { border-radius: 0.9rem; width: 100%; }
+  .final { background: linear-gradient(135deg, var(--color-green), var(--color-green-dark)); }
+</style>

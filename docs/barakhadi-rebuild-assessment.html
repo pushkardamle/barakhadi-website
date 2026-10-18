@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Barakhadi Rebuild Assessment</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+Devanagari:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a report that reads like a workbook. Sticky table of contents on wide screens, one column on phones.
+   Sections are marked with the barakhadi itself (क का कि की …) because the order is real. */
+:root {
+  --bg: #FAFCF8;
+  --surface: #F0F5EE;
+  --surface-2: #FFFFFF;
+  --ink: #17261D;
+  --muted: #56645B;
+  --line: #DCE5DA;
+  --green: #0F8A41;
+  --green-fill: #119B49;
+  --orange: #A85500;
+  --orange-fill: #FF9500;
+  --orange-soft: #FFF1DC;
+  --blue: #1B6FB3;
+  --blue-soft: #E3F0FA;
+  --crit: #B3261E;
+  --crit-soft: #FBE5E3;
+  --warn: #8A5A00;
+  --warn-soft: #FFF3D6;
+  --ok: #0F7A3B;
+  --ok-soft: #E2F4E8;
+  --font-display: "Baloo 2", "Noto Sans Devanagari", "Trebuchet MS", system-ui, sans-serif;
+  --font-body: "Nunito", "Noto Sans Devanagari", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+  --step--1: 0.875rem;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.5rem;
+  --step-3: 2rem;
+  --step-4: 2.75rem;
+  --radius: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111713; --surface: #18211B; --surface-2: #1D2720; --ink: #E6EEE8; --muted: #9DAAA2; --line: #2B372F;
+    --green: #4CC97E; --green-fill: #1FA557; --orange: #FFB454; --orange-fill: #FF9500; --orange-soft: #33270F;
+    --blue: #6DB3EA; --blue-soft: #15283A; --crit: #FF8A80; --crit-soft: #3A1A18; --warn: #F2C063; --warn-soft: #33290F;
+    --ok: #6AD69A; --ok-soft: #14301F; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111713; --surface: #18211B; --surface-2: #1D2720; --ink: #E6EEE8; --muted: #9DAAA2; --line: #2B372F;
+  --green: #4CC97E; --green-fill: #1FA557; --orange: #FFB454; --orange-fill: #FF9500; --orange-soft: #33270F;
+  --blue: #6DB3EA; --blue-soft: #15283A; --crit: #FF8A80; --crit-soft: #3A1A18; --warn: #F2C063; --warn-soft: #33290F;
+  --ok: #6AD69A; --ok-soft: #14301F; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+}
+a { color: var(--blue); text-underline-offset: 2px; }
+a:focus-visible, summary:focus-visible { outline: 3px solid var(--orange-fill); outline-offset: 2px; border-radius: 4px; }
+code, .mono { font-family: var(--font-mono); font-size: 0.86em; }
+code { background: var(--surface); border: 1px solid var(--line); border-radius: 5px; padding: 0.05em 0.35em; overflow-wrap: anywhere; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h2 { font-size: var(--step-3); font-weight: 700; }
+h3 { font-size: var(--step-1); font-weight: 700; }
+p { margin: 0; max-width: 68ch; }
+ul, ol { margin: 0; padding-left: 1.25rem; max-width: 70ch; }
+li + li { margin-top: 0.3rem; }
+strong { font-weight: 700; }
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* Masthead */
+.masthead { border-bottom: 1px solid var(--line); background: var(--surface); }
+.masthead .wrap { padding-block: 2.5rem 2rem; display: grid; gap: 1rem; }
+.kicker { font-family: var(--font-mono); font-size: var(--step--1); color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+.masthead h1 { font-size: clamp(2.1rem, 6vw, var(--step-4)); font-weight: 800; }
+.masthead h1 .deva { color: var(--orange-fill); font-weight: 700; }
+.masthead .lede { font-size: var(--step-1); color: var(--muted); max-width: 62ch; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; font-size: var(--step--1); color: var(--muted); }
+.meta-row b { color: var(--ink); font-weight: 700; }
+
+/* Layout grid */
+.layout { display: grid; grid-template-columns: 1fr; gap: 2rem; padding-block: 2rem 4rem; }
+@media (min-width: 1040px) {
+  .layout { grid-template-columns: 230px minmax(0, 1fr); gap: 3rem; }
+  .toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 1.5rem); align-self: start; max-height: calc(100vh - 3rem); overflow: auto; }
+}
+.toc { font-size: var(--step--1); }
+.toc p { font-family: var(--font-mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.75rem; margin-bottom: 0.6rem; }
+.toc ol { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.15rem; }
+.toc li + li { margin-top: 0; }
+.toc a { display: grid; grid-template-columns: 2.2rem 1fr; align-items: baseline; gap: 0.25rem; padding: 0.3rem 0.4rem; border-radius: 8px; color: var(--ink); text-decoration: none; }
+.toc a:hover { background: var(--surface); }
+.toc .mk { font-family: var(--font-display); color: var(--orange); font-weight: 700; font-size: 1.05rem; }
+@media (max-width: 1039px) {
+  .toc { border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem; background: var(--surface-2); }
+  .toc ol { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+}
+
+main { min-width: 0; display: grid; gap: 3.5rem; }
+section { display: grid; gap: 1.25rem; scroll-margin-top: 1.5rem; min-width: 0; }
+.sec-head { display: grid; grid-template-columns: auto 1fr; gap: 0.25rem 1rem; align-items: center; }
+.sec-head .mk {
+  font-family: var(--font-display); font-weight: 700; font-size: 2rem; line-height: 1;
+  width: 3.2rem; height: 3.2rem; display: grid; place-items: center;
+  border-radius: 50%; background: var(--orange-soft); color: var(--orange);
+  grid-row: span 2;
+}
+.sec-head .sub { color: var(--muted); font-size: var(--step--1); }
+.sub-h { display: grid; gap: 0.75rem; }
+
+/* Callouts */
+.callout { border-radius: var(--radius); padding: 1rem 1.15rem; display: grid; gap: 0.5rem; border: 1px solid var(--line); background: var(--surface-2); }
+.callout.crit { background: var(--crit-soft); border-color: transparent; }
+.callout.ok { background: var(--ok-soft); border-color: transparent; }
+.callout.rec { background: var(--blue-soft); border-color: transparent; }
+.callout h3 { font-size: var(--step-1); }
+
+/* Verdict grid (summary) */
+.verdicts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 1rem; }
+.verdict { background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.1rem; display: grid; gap: 0.5rem; align-content: start; }
+.verdict .label { font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.verdict .big { font-family: var(--font-display); font-size: var(--step-2); font-weight: 700; line-height: 1.15; }
+.verdict p { font-size: 0.95rem; color: var(--muted); }
+
+/* Pills */
+.pill { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.1rem 0.6rem; border-radius: 999px; font-size: 0.78rem; font-weight: 700; white-space: nowrap; line-height: 1.6; }
+.pill.crit { background: var(--crit-soft); color: var(--crit); }
+.pill.high { background: var(--warn-soft); color: var(--warn); }
+.pill.med { background: var(--blue-soft); color: var(--blue); }
+.pill.ok { background: var(--ok-soft); color: var(--ok); }
+.pill.done { background: var(--ok-soft); color: var(--ok); }
+.pill.todo { background: var(--orange-soft); color: var(--orange); }
+.pill.na { background: var(--surface); color: var(--muted); border: 1px solid var(--line); }
+
+/* Tables */
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); }
+table { border-collapse: collapse; width: 100%; font-size: 0.93rem; }
+th, td { text-align: left; vertical-align: top; padding: 0.65rem 0.8rem; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font-family: var(--font-mono); font-weight: 600; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); background: var(--surface); }
+td.k { font-weight: 700; min-width: 8rem; max-width: 14rem; }
+td.k code { display: inline-block; margin: 0 0.2rem 0.2rem 0; }
+.compare td { min-width: 200px; }
+.compare td.k { min-width: 150px; max-width: none; }
+.compare th.rec { color: var(--green); }
+.compare td.rec { background: color-mix(in srgb, var(--green-fill) 7%, transparent); }
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* Flow (payment prototype) */
+.flow { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; counter-reset: step; max-width: none; }
+.flow li { margin: 0; display: grid; grid-template-columns: 2.4rem 1fr; gap: 0.85rem; align-items: start; background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 0.9rem 1rem; }
+.flow li::before { counter-increment: step; content: counter(step); font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; width: 2.4rem; height: 2.4rem; border-radius: 50%; display: grid; place-items: center; background: var(--blue-soft); color: var(--blue); }
+.flow .who { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.flow .bad { color: var(--crit); font-weight: 700; }
+
+/* Two column lists */
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 1rem; }
+.col { background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.1rem; display: grid; gap: 0.6rem; align-content: start; min-width: 0; }
+.col h3 { font-size: 1.1rem; }
+.col.pros h3 { color: var(--ok); }
+.col.cons h3 { color: var(--crit); }
+
+/* Option cards */
+.options { display: grid; gap: 1rem; }
+.option { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); padding: 1.25rem; display: grid; gap: 1rem; }
+.option.rec { border: 2px solid var(--green-fill); }
+.option-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1rem; justify-content: space-between; }
+.option-head h3 { font-size: var(--step-2); }
+.option .tag { font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); }
+.option .pc { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+.option .pc h4 { margin: 0 0 0.4rem; font-family: var(--font-display); font-size: 1.05rem; }
+.option .pc .p h4 { color: var(--ok); }
+.option .pc .c h4 { color: var(--crit); }
+
+/* Architecture diagram */
+.arch { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); padding: 1rem; }
+.arch svg { display: block; min-width: 760px; width: 100%; height: auto; }
+.arch text { font-family: var(--font-body); fill: var(--ink); }
+.arch .small { font-size: 12px; fill: var(--muted); }
+.arch .mono { font-family: var(--font-mono); font-size: 11.5px; fill: var(--muted); }
+.arch .box { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
+.arch .box-g { fill: var(--ok-soft); stroke: var(--green-fill); stroke-width: 1.5; }
+.arch .box-b { fill: var(--blue-soft); stroke: var(--blue); stroke-width: 1.5; }
+.arch .box-o { fill: var(--orange-soft); stroke: var(--orange-fill); stroke-width: 1.5; }
+.arch .line { stroke: var(--muted); stroke-width: 1.5; fill: none; }
+.arch .dash { stroke-dasharray: 5 4; }
+.arch .ttl { font-family: var(--font-display); font-weight: 700; font-size: 15px; }
+.arch .arrowhead { fill: var(--muted); }
+
+/* Phases */
+.phases { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+.phase { background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.1rem; display: grid; gap: 0.6rem; align-content: start; border-top: 5px solid var(--line); }
+.phase.p1 { border-top-color: var(--green-fill); }
+.phase.p2 { border-top-color: var(--orange-fill); }
+.phase.p3 { border-top-color: var(--blue); }
+.phase.p4 { border-top-color: #8E6AD8; }
+.phase .when { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.phase ul { font-size: 0.93rem; }
+
+/* Timeline */
+.timeline { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; max-width: none; border-left: 3px solid var(--line); margin-left: 0.5rem; }
+.timeline li { margin: 0; padding: 0 0 1.1rem 1.25rem; position: relative; }
+.timeline li::before { content: ""; position: absolute; left: -0.55rem; top: 0.45rem; width: 0.8rem; height: 0.8rem; border-radius: 50%; background: var(--green-fill); border: 3px solid var(--bg); }
+.timeline li.gap::before { background: var(--muted); }
+.timeline li.now::before { background: var(--orange-fill); }
+.timeline .d { font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); }
+
+/* Q list */
+.qlist { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; max-width: none; counter-reset: q; }
+.qlist li { margin: 0; display: grid; grid-template-columns: 2rem 1fr; gap: 0.75rem; background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 0.85rem 1rem; }
+.qlist li::before { counter-increment: q; content: "Q" counter(q); font-family: var(--font-mono); font-weight: 600; color: var(--orange); font-size: 0.9rem; padding-top: 0.1rem; }
+.qlist p + p { margin-top: 0.25rem; color: var(--muted); font-size: 0.93rem; }
+
+details { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); padding: 0.75rem 1rem; }
+details summary { cursor: pointer; font-weight: 700; }
+details[open] summary { margin-bottom: 0.75rem; }
+.sources { columns: 2 300px; column-gap: 2rem; font-size: 0.88rem; padding-left: 1.1rem; max-width: none; }
+.sources li { break-inside: avoid; overflow-wrap: anywhere; }
+
+.foot { border-top: 1px solid var(--line); color: var(--muted); font-size: var(--step--1); }
+.foot .wrap { padding-block: 1.5rem 2.5rem; }
+.muted { color: var(--muted); }
+.small { font-size: 0.9rem; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <span class="kicker">Website rebuild · status report and tech-stack options</span>
+    <h1>Barakhadi Rebuild Assessment <span class="deva">बाराखडी</span></h1>
+    <p class="lede">Where the live site, the redesign and the Stripe → TalentLMS prototype actually stand. Three ways to build the new barakhadi.com, and the one I recommend.</p>
+    <div class="meta-row">
+      <span>Prepared <b>17 Oct 2026</b></span>
+      <span>For <b>Pushkar</b>, Barakhadi LLC</span>
+      <span>Working folder <b class="mono">A:\Barakhadi AI Website\barakhadi-web</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="Contents">
+    <p>Contents</p>
+    <ol>
+      <li><a href="#summary"><span class="mk">क</span><span>Summary</span></a></li>
+      <li><a href="#security"><span class="mk">का</span><span>Security: act now</span></a></li>
+      <li><a href="#live"><span class="mk">कि</span><span>Live site today</span></a></li>
+      <li><a href="#wip"><span class="mk">की</span><span>Redesign in progress</span></a></li>
+      <li><a href="#payments"><span class="mk">कु</span><span>Payment prototype</span></a></li>
+      <li><a href="#history"><span class="mk">कू</span><span>Work so far</span></a></li>
+      <li><a href="#talentlms"><span class="mk">के</span><span>TalentLMS: what's possible</span></a></li>
+      <li><a href="#options"><span class="mk">कै</span><span>Tech-stack options</span></a></li>
+      <li><a href="#plan"><span class="mk">को</span><span>Recommended plan</span></a></li>
+      <li><a href="#questions"><span class="mk">कौ</span><span>Decisions for you</span></a></li>
+      <li><a href="#sources"><span class="mk">कं</span><span>Sources</span></a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <!-- क SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="mk" aria-hidden="true">क</span><h2>Summary</h2><span class="sub">The short version</span></div>
+
+      <div class="verdicts">
+        <div class="verdict">
+          <span class="label">Live site · barakhadi.com</span>
+          <span class="big">Small, dated, can't sell</span>
+          <p>Four real pages on WordPress + Elementor (Cloudways). There's no way to subscribe, no legal pages, no analytics, and the site name is misspelled "Barkhadi" in every page title.</p>
+        </div>
+        <div class="verdict">
+          <span class="label">Redesign · Cloudways staging</span>
+          <span class="big">About 25–30% done</span>
+          <p>A strong, colourful home page and a working test-mode subscribe flow. Every nav link except Home is a 404. Four more page drafts exist only on your disk.</p>
+        </div>
+        <div class="verdict">
+          <span class="label">Stripe → TalentLMS prototype</span>
+          <span class="big">Worked, but unsafe</span>
+          <p>The Cloudflare Worker created real TalentLMS users after a test payment. It skipped webhook signature checks and had your production TalentLMS key in the code. Its public URL was turned off today.</p>
+        </div>
+        <div class="verdict">
+          <span class="label">Recommendation</span>
+          <span class="big">Astro 7 on Cloudflare Workers</span>
+          <p>$0–5/month, nothing to patch on a server, built from files that Claude Code edits well. The payment logic moves in as API routes. You already run two Astro sites this way.</p>
+        </div>
+      </div>
+
+      <div class="callout rec">
+        <h3>How we get to a live site fast</h3>
+        <p>Phase 1 launches the 4 pages you have today, on the same URLs and with your current content, plus privacy and terms pages. It runs on Astro + Cloudflare with DNS moved off Cloudways. That's a small amount of work because the redesign's home page and design system carry over. Payments, the custom TalentLMS domain and teacher areas follow as separate phases on the same codebase, so nothing has to be rebuilt later.</p>
+      </div>
+    </section>
+
+    <!-- का SECURITY -->
+    <section id="security">
+      <div class="sec-head"><span class="mk" aria-hidden="true">का</span><h2>Security: act now</h2><span class="sub">Found during this review. Independent of the rebuild.</span></div>
+
+      <div class="callout crit">
+        <h3>The old payment Worker could hand out free accounts on your real LMS</h3>
+        <p>The <code>barakhadi-subscription</code> Worker was publicly reachable for 10 months. It accepted any POST to <code>/api/stripe-webhook</code> without checking Stripe's signature, then created a user in <b>marathi.talentlms.com</b> (branch 14) and enrolled them in a level group. Its source code also contained your production TalentLMS API key.</p>
+      </div>
+
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Status</th><th>Action</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td><span class="pill done">Done today</span></td><td>Turned off the Worker's <code>workers.dev</code> URL and preview URLs. The Worker still exists in your Cloudflare dashboard, unchanged.</td><td>Requests now get Cloudflare error 1042. Nobody can reach the webhook, the email lookup or the TalentLMS test endpoint.</td></tr>
+            <tr><td><span class="pill done">Done today</span></td><td>Saved a <b>redacted</b> copy of the Worker code to <code>barakhadi-web/docs/reference/</code>.</td><td>The source wasn't anywhere on your disks. It was only in Cloudflare.</td></tr>
+            <tr><td><span class="pill todo">To do · you</span></td><td><b>Regenerate the TalentLMS API key</b> (TalentLMS → Account &amp; Settings → Integrations → API).</td><td>The current key is full-admin and sat in deployed code. Rotating it also kills any copy.</td></tr>
+            <tr><td><span class="pill todo">To do · you</span></td><td>In TalentLMS, review users in branch 14 created since Dec 2025 and remove any test or unknown accounts.</td><td>They may be test signups or abuse, and each active user counts against your seat limit.</td></tr>
+            <tr><td><span class="pill todo">To do · you</span></td><td>Roll the Stripe <b>test</b> secret key and delete the old test webhook endpoint in the Stripe dashboard.</td><td>These are in plain text in your notes and in the Worker settings. They're test mode, so this is low risk.</td></tr>
+            <tr><td><span class="pill todo">To do · you</span></td><td>Move the passwords and keys in <code>Misc Barakhadi website with Claude code.txt</code> and <code>shell_commands.txt</code> into a password manager, then delete them from those files. Change the password that starts with "Doma…" wherever it's used.</td><td>A password, an unlabelled credential (starts with "8H46…"), Stripe secrets and reCAPTCHA secrets are all in plain text. None of them are in git.</td></tr>
+            <tr><td><span class="pill todo">To do · me, in Phase 1</span></td><td>Delete the WordPress junk pages (<code>/hello-world/</code>, <code>/sample-page/</code>, <code>/test/</code>), or let them return 410 Gone after the move.</td><td>"Hello world" shows your personal Gmail address as the author, and all of them are indexable.</td></tr>
+            <tr><td><span class="pill na">Later</span></td><td>Delete the old Worker completely once the new payment flow is live.</td><td>You chose to keep it for now.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted">The GitHub repo <code>pushkardamle/barakhadi-new</code> is public. Its history contains only the Stripe publishable key and reCAPTCHA site keys, which are meant to be public. Still, I'd make it private.</p>
+    </section>
+
+    <!-- कि LIVE SITE -->
+    <section id="live">
+      <div class="sec-head"><span class="mk" aria-hidden="true">कि</span><h2>Live site today</h2><span class="sub">www.barakhadi.com · WordPress + Elementor on Cloudways</span></div>
+
+      <div class="tbl">
+        <table>
+          <thead><tr><th>URL</th><th>What it is</th><th>Plan for it</th></tr></thead>
+          <tbody>
+            <tr><td class="k"><code>/</code></td><td>Home. "100 activities", "30 kid-friendly conversational topics", a Wistia demo video, three free-trial links into TalentLMS, and an "Available for subscription" heading with no button, price or link. Last edited 15 Dec 2025.</td><td><span class="pill ok">Keep URL</span> Replace with the redesign's home page.</td></tr>
+            <tr><td class="k"><code>/faq/</code></td><td>13 questions, from 2020. This is the only place the price appears: "$5 per month per student … subscription for a year", plus custom packages for Marathi shala groups. Still uses the old product name "Gappa Goshti".</td><td><span class="pill ok">Keep URL</span> Update the price, activity count and name.</td></tr>
+            <tr><td class="k"><code>/contact-us/</code></td><td>Elementor Pro form with reCAPTCHA (name, email, phone, city, message). Sends to info@barakhadi.com through the FluentSMTP plugin.</td><td><span class="pill ok">Keep URL</span> New form on Cloudflare Turnstile.</td></tr>
+            <tr><td class="k"><code>/videos/</code></td><td>Three Wistia videos. In the sitemap but not in the nav.</td><td><span class="pill med">301</span> to a "How it works" page.</td></tr>
+            <tr><td class="k"><code>/test/</code> <code>/sample-page/</code> <code>/hello-world/</code> <code>/category/uncategorized/</code></td><td>WordPress leftovers, all indexable.</td><td><span class="pill crit">410 Gone</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cols">
+        <div class="col">
+          <h3>Tech fingerprint</h3>
+          <ul class="small">
+            <li><b>Platform:</b> WordPress 7.1, Kadence theme, Elementor 4.3 and Elementor Pro.</li>
+            <li><b>Plugins:</b> Breeze cache, Wordfence, FluentSMTP, All-in-One WP Migration, and Elementor AI/MCP add-ons.</li>
+            <li><b>Hosting:</b> nginx with Cloudways cache. No CDN and no security headers.</li>
+            <li><b>Page weight:</b> 25 scripts and 10 stylesheets, about 1.06 MB in total. The largest file is a 292 KB Elementor script.</li>
+            <li><b>DNS:</b> on Namecheap. The A record points to the Cloudways server (159.89.88.251).</li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3>SEO and marketing gaps</h3>
+          <ul class="small">
+            <li>The site name is misspelled <b>"Barkhadi"</b> in every page title.</li>
+            <li>There are no meta descriptions, Open Graph tags or structured data, and images have almost no alt text.</li>
+            <li><b>There is no analytics at all</b> (no GA4, Tag Manager or Meta pixel).</li>
+            <li>There are no privacy or terms pages, which matters for a children's product (COPPA) and for Stripe.</li>
+            <li>Every visit goes through two redirects to reach https://www.</li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3>Email may be broken</h3>
+          <p class="small">barakhadi.com has <b>no MX records</b> (checked through Google and Cloudflare DNS). Mail sent to info@barakhadi.com from outside probably bounces. The contact form likely still works because FluentSMTP sends through another service. We should fix this during the DNS move, for example with Cloudflare Email Routing (free) forwarding to your Gmail.</p>
+        </div>
+      </div>
+
+      <details>
+        <summary>Content that must carry over</summary>
+        <ul class="small">
+          <li>The 13 FAQ answers, with the price, activity count and product name updated.</li>
+          <li>The positioning for teachers and BMM shalas, and the school/group pricing note.</li>
+          <li>The three free-trial TalentLMS guest links (keys <code>EOSNHRKM</code>, <code>EQLNHRKM</code>, <code>EGBNHRKM</code>).</li>
+          <li>The three Wistia videos (<code>ktanuvwk0f</code>, <code>pde62e1mhu</code>, <code>mkwnt2h471</code>) and the demo video.</li>
+          <li>The logo, favicon, "Barakhadi LLC", the contact email, and a Login link to the correct TalentLMS portal.</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- की WIP -->
+    <section id="wip">
+      <div class="sec-head"><span class="mk" aria-hidden="true">की</span><h2>Redesign in progress</h2><span class="sub">phpstack-1560311-6053934.cloudwaysapps.com and your local folders</span></div>
+
+      <p>The redesign is far more polished than the live site. It's playful and colourful, in a Duolingo-like style: "Learn Marathi the Fun Way / चला शिकू या मराठी", 3 skills, 3 levels, a founders section and a photo-strip hero. But it's spread across several places, and the newest work was never deployed.</p>
+
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Page</th><th>Best version</th><th>Where</th><th>State</th></tr></thead>
+          <tbody>
+            <tr><td class="k">Home</td><td><code>Barakhadi-New/index.html</code> + <code>css/styles.css</code></td><td>Staging + disk</td><td><span class="pill high">Needs merge</span> The 10 Jan CSS refresh isn't committed. It asks for the Outfit font, which the page never loads.</td></tr>
+            <tr><td class="k">Subscribe</td><td><code>Barakhadi-New/subscribe.html</code></td><td>Staging + git</td><td><span class="pill high">Test mode</span> Works end to end against Stripe test mode. Logs the password to the browser console.</td></tr>
+            <tr><td class="k">Thank-you</td><td><code>Barakhadi-New/thank-you.html</code></td><td>Staging + git</td><td><span class="pill crit">Misleading</span> Always says "Account created", even when enrollment fails.</td></tr>
+            <tr><td class="k">About, FAQ, Contact, Who it's for</td><td><code>Claude desktop files/Dec 16 - 2/</code></td><td>Disk only</td><td><span class="pill med">Draft</span> Never committed or deployed. The copy is reusable.</td></tr>
+            <tr><td class="k">Design system</td><td><code>Barakhadi-New/DESIGN_SYSTEM.html</code></td><td>Staging + git</td><td><span class="pill ok">Reusable</span> Its tokens are the starting point.</td></tr>
+            <tr><td class="k">Pricing, Activities, How it works, Privacy, Terms</td><td>None</td><td>—</td><td><span class="pill na">Not started</span> They're linked from the nav, so every one is a 404.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cols">
+        <div class="col pros">
+          <h3>Keep</h3>
+          <ul class="small">
+            <li>Brand orange <code>#FF9500</code> and green <code>#119B49</code>, the Nunito font, and the spacing scale.</li>
+            <li>The photo-strip hero, level tabs, FAQ accordion and form styling.</li>
+            <li>The wireframe copy and the drafts for Who it's for, About and FAQ.</li>
+            <li>9 AVIF activity screenshots, the logo, the tagline image and the course cover.</li>
+            <li>The Worker's endpoint design and the thank-you page's polling idea.</li>
+          </ul>
+        </div>
+        <div class="col cons">
+          <h3>Fix or drop</h3>
+          <ul class="small">
+            <li>No mobile menu: the nav just disappears on phones.</li>
+            <li>White text on orange buttons fails WCAG AA contrast, and focus outlines are removed.</li>
+            <li>The design is inconsistent: Quicksand vs Outfit headings, three oranges, two blues and three breakpoint systems.</li>
+            <li>The page is marked <code>lang="mr"</code> but the content is English. There are no canonical, OG or schema tags.</li>
+            <li>Unsupported claims ("thousands" of users, "10,000+ practice hours").</li>
+            <li>Collecting a password at checkout.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- कु PAYMENTS -->
+    <section id="payments">
+      <div class="sec-head"><span class="mk" aria-hidden="true">कु</span><h2>Payment prototype</h2><span class="sub">Cloudflare Worker "barakhadi-subscription", deployed 14 Dec 2025, recovered today</span></div>
+
+      <p>Your memory was close: the pages are plain HTML, CSS and JS. The backend is a ~550-line Cloudflare Worker in old service-worker syntax that calls the Stripe and TalentLMS v1 APIs directly with <code>fetch</code>. This is how it worked:</p>
+
+      <ol class="flow">
+        <li><div><span class="who">subscribe.html</span><p>The parent enters an email, password, the student's name, age group, level (0/1/2), a parent name if the student is under 18, ticks reCAPTCHA v2, and agrees to terms (those pages don't exist).</p></div></li>
+        <li><div><span class="who">Worker · /api/check-email</span><p>When the email field loses focus, the Worker downloads <b>your entire TalentLMS user list</b> and checks whether the email is taken. <span class="bad">Anyone could use it to test emails, and it slows down as you grow.</span></p></div></li>
+        <li><div><span class="who">Worker · /api/create-checkout-session</span><p>Creates a Stripe Checkout session: <b>$60 USD one-time</b> "Barakhadi Annual Subscription", with all form fields in metadata, <span class="bad">including the plain-text password</span>. The reCAPTCHA token is sent but <span class="bad">never verified</span>.</p></div></li>
+        <li><div><span class="who">Stripe → Worker · /api/stripe-webhook</span><p>On <code>checkout.session.completed</code>: <span class="bad">no signature check</span>. Then <code>usersignup</code> (user type "Student-Independent", branch 14) → <code>addusertogroup</code> with that level's group key → <code>edituser</code> deactivation date +364 days. If the group step fails, it deletes the user.</p></div></li>
+        <li><div><span class="who">thank-you.html · /api/verify-enrollment</span><p>Waits 5 seconds, polls up to 3 times for the user in TalentLMS, then <span class="bad">shows success regardless</span>. Failed enrollments were only written to logs. No alert was sent.</p></div></li>
+      </ol>
+
+      <div class="cols">
+        <div class="col pros">
+          <h3>Ideas worth keeping</h3>
+          <ul class="small">
+            <li>One TalentLMS <b>group per level</b>, so enrolling in a group enrolls the student in all that level's courses.</li>
+            <li>A <b>deactivation date</b> for the end of access. Deactivated users keep their progress and stop using a seat.</li>
+            <li>A dedicated "Student-Independent" user type and branch for paying families.</li>
+            <li>Rolling back the user if enrollment fails.</li>
+          </ul>
+        </div>
+        <div class="col cons">
+          <h3>What the rebuild must change</h3>
+          <ul class="small">
+            <li>Verify Stripe signatures, store each event once in a database (D1), and process it from a queue that retries and alerts on failure.</li>
+            <li>Never collect passwords. Use a TalentLMS password-set email or a one-click login link instead.</li>
+            <li>Use <b>TalentLMS API v2</b> (v1 is deprecated), with the key kept as an encrypted secret.</li>
+            <li>Support real subscriptions with renewals, trials, one-time courses and school seats, plus Stripe's Customer Portal so customers can manage them.</li>
+            <li>Show the real status on the thank-you page, and look users up by email instead of downloading everyone.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- कू HISTORY -->
+    <section id="history">
+      <div class="sec-head"><span class="mk" aria-hidden="true">कू</span><h2>Work so far</h2><span class="sub">From the git history, file dates and Cloudflare</span></div>
+      <ol class="timeline">
+        <li><span class="d">2020–2023</span><p>The live WordPress site is built. The FAQ dates from 2020 and the contact page from 2023.</p></li>
+        <li><span class="d">6–10 Dec 2025</span><p>New home page and design system built with Claude Code in <code>Barakhadi-New</code>. Firecrawl scrape of the live site.</p></li>
+        <li><span class="d">12–15 Dec 2025</span><p>Subscribe and thank-you pages (12 commits) and the Cloudflare Worker, deployed 14 Dec. Tested end to end against Stripe test mode and the real TalentLMS portal.</p></li>
+        <li><span class="d">16 Dec 2025</span><p>Wireframes in Claude Desktop, plus drafts of About, FAQ, Contact and Who it's for. Never committed.</p></li>
+        <li><span class="d">10 Jan 2026</span><p>CSS refresh (Outfit headings, green hero, darker orange). Left uncommitted.</p></li>
+        <li class="gap"><span class="d">Jan – Oct 2026</span><p>Stalled. The staging site and Worker were left running.</p></li>
+        <li class="now"><span class="d">17 Oct 2026</span><p>This review. Worker recovered and its public URL turned off, new working folder <code>barakhadi-web</code> created.</p></li>
+      </ol>
+
+      <details>
+        <summary>Contradictions to settle before reusing copy</summary>
+        <div class="tbl" style="margin-top:.5rem">
+          <table>
+            <thead><tr><th>Topic</th><th>What the sources say</th></tr></thead>
+            <tbody>
+              <tr><td class="k">TalentLMS portal</td><td><code>marathi.talentlms.com</code> (live site, Worker) vs <code>indml-marathi.talentlms.com</code> (redesign copy)</td></tr>
+              <tr><td class="k">Activity count</td><td>100 (live) · 100+ · 300+ (redesign)</td></tr>
+              <tr><td class="k">Price and renewal</td><td>$5/month per student billed annually, auto-renewing, set up manually within 1–2 days (FAQ) vs $60 one-time, no renewal, instant access (subscribe page)</td></tr>
+              <tr><td class="k">Founder name</td><td>"Pushkar Damle" vs "Pushkar Deshpande" in different drafts</td></tr>
+              <tr><td class="k">Contact email</td><td>info@ · hello@ · support@</td></tr>
+              <tr><td class="k">Product name</td><td>"Gappa Goshti" still appears in the FAQ</td></tr>
+              <tr><td class="k">Spelling</td><td>Some docs say Hindi or बरखड़ी instead of Marathi बाराखडी</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <!-- के TALENTLMS -->
+    <section id="talentlms">
+      <div class="sec-head"><span class="mk" aria-hidden="true">के</span><h2>TalentLMS: what's possible</h2><span class="sub">Current docs, Oct 2026 · your plan is a grandfathered Basic</span></div>
+
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Question</th><th>Answer</th><th>What it means for us</th></tr></thead>
+          <tbody>
+            <tr><td class="k">Which API?</td><td><b>API v1 is deprecated</b> ("no longer maintained"). <b>API v2</b> uses an <code>X-API-Key</code> header plus <code>X-API-Version</code>. It adds paging, bulk calls and rate-limit headers.</td><td>Build on v2 from day one. The old Worker code needs rewriting, not just copying.</td></tr>
+            <tr><td class="k">Rate limits</td><td>Basic and Core get <b>2,000 calls/hour</b>, Grow and up get 10,000. Every plan is capped at 200 calls per 5 seconds.</td><td>Plenty for enrollments. Cache any dashboard data instead of calling live on every page view.</td></tr>
+            <tr><td class="k">Webhooks?</td><td><b>None.</b> The only push is a course-completion automation, which is Pro only and unsigned.</td><td>Check the v2 timeline endpoint on a schedule (Cloudflare Cron) for progress events.</td></tr>
+            <tr><td class="k">Login without a second password</td><td>On every paid plan, the API can return a <b>one-time login link</b> for a user or for a specific course.</td><td>A "Go to my lessons" button on barakhadi.com is possible <b>without SSO</b>.</td></tr>
+            <tr><td class="k">SSO</td><td>SAML 2.0, OpenID Connect and LDAP on paid plans. TalentLMS starts the login, matches accounts by username, and <b>auto-creates any user who signs in</b>, which uses a paid seat.</td><td>Possible later, with barakhadi.com as the identity provider. Guard who can sign in.</td></tr>
+            <tr><td class="k">Custom domain</td><td><code>learn.barakhadi.com</code> via CNAME with a free SSL certificate on paid plans. Removing "Powered by TalentLMS" is <b>Pro only</b>. The new interface has no custom CSS, only colours, logo and a homepage builder.</td><td>Students stay "on the Barakhadi domain" in the URL bar, with TalentLMS branding in a corner.</td></tr>
+            <tr><td class="k">Render courses on our site?</td><td>No. The API returns course data, enrollments and progress, but <b>nothing can play units</b> outside TalentLMS.</td><td>Realistic version: catalog and checkout on barakhadi.com, lessons on learn.barakhadi.com. Framing it inside barakhadi.com is possible (admin setting) but not recommended.</td></tr>
+            <tr><td class="k">Built-in selling</td><td>Stripe or PayPal, a price per course or category, coupons, and one catalog-wide subscription. Turning that on disables single-course purchases, and cancelling cuts access immediately.</td><td>Too limited for family + school + trial pricing. Run Stripe ourselves.</td></tr>
+            <tr><td class="k">Teachers and schools</td><td>Instructor role, groups, assignments and live sessions on all plans. Custom reports need Grow+. <b>Group Supervisor</b> (a teacher sees only their own class) is <b>Pro only</b>. Branches: Core 1, Grow 3, Pro 15.</td><td>On Basic, a custom teacher dashboard built from API progress data is the practical route. Or upgrade if native features suffice.</td></tr>
+            <tr><td class="k">Seats</td><td>Only <b>active</b> users count. Deactivated users keep their data. <b>Every user needs a unique email.</b></td><td>Deactivate when a subscription lapses, reactivate on renewal. Siblings sharing one parent email need separate logins, for example with plus-addressing or a username scheme.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted">Not verified: exactly what your grandfathered Basic plan includes (user limit, branches, SSO, custom domain). Branch ID 14 in the Worker suggests you have more than one branch. Please check <b>Home → Subscription</b> in the portal.</p>
+    </section>
+
+    <!-- कै OPTIONS -->
+    <section id="options">
+      <div class="sec-head"><span class="mk" aria-hidden="true">कै</span><h2>Tech-stack options</h2><span class="sub">Three realistic paths, compared against your requirements</span></div>
+
+      <div class="tbl compare">
+        <table>
+          <thead>
+            <tr><th>Requirement</th><th class="rec">A · Astro 7 + Cloudflare Workers</th><th>B · Next.js 16 on Vercel (or Cloudflare)</th><th>C · WordPress + Bricks on Cloudways</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="k">Running cost</td><td class="rec tnum"><span class="pill ok">$0–5/mo</span><br>Free tier, or $5 Workers Paid once selling</td><td class="tnum"><span class="pill high">$20+/mo</span><br>Vercel's free tier is non-commercial only. $5 on Cloudflare via OpenNext.</td><td class="tnum"><span class="pill high">$11–28/mo</span><br>+ Bricks $79/yr (or $599 lifetime) + paid plugins</td></tr>
+            <tr><td class="k">Low maintenance</td><td class="rec"><span class="pill ok">Strong</span><br>No server or plugins. A monthly dependency update PR.</td><td><span class="pill high">Fair</span><br>Frequent critical patches: 2 critical remote-code-execution bugs on 14 Oct 2026, 6 advisories on 30 Sep.</td><td><span class="pill crit">Weak</span><br>Core, theme, builder, plugin and PHP updates. Bricks had an exploited remote-code-execution bug (CVE-2024-25600).</td></tr>
+            <tr><td class="k">Fast, mobile-friendly</td><td class="rec"><span class="pill ok">Strong</span><br>Static HTML from Cloudflare's edge, no JS by default.</td><td><span class="pill med">Good</span><br>Ships a React runtime on every page.</td><td><span class="pill med">OK</span><br>Much leaner than Elementor, but still PHP + MySQL + cache.</td></tr>
+            <tr><td class="k">SEO and marketing</td><td class="rec"><span class="pill ok">Strong</span><br>Full control of head tags, sitemap, schema, i18n, Markdown blog.</td><td><span class="pill ok">Strong</span><br>Metadata API, OG image generation.</td><td><span class="pill ok">Strong</span><br>Via a plugin (Rank Math or Yoast).</td></tr>
+            <tr><td class="k">Easy to build and update with AI</td><td class="rec"><span class="pill ok">Strong</span><br>Plain files in Git, HTML-like components, official Astro Docs MCP server.</td><td><span class="pill med">Good</span><br>Most training data, but caching APIs keep changing.</td><td><span class="pill crit">Weak</span><br>Layout lives in the database, not Git. AI edits a live site with no diff to review.</td></tr>
+            <tr><td class="k">Stripe → TalentLMS purchase</td><td class="rec"><span class="pill ok">Native</span><br>API routes + D1 + Queues + Cron in the same project. Your Worker logic moves in.</td><td><span class="pill ok">Good</span><br>Well-known patterns. Background jobs need extra services.</td><td><span class="pill high">Plugins</span><br>WooCommerce + a subscriptions plugin, or keep a separate Worker anyway.</td></tr>
+            <tr><td class="k">Future: accounts, SSO, teacher dashboards</td><td class="rec"><span class="pill med">Good</span><br>Better Auth + D1 can act as the sign-in provider for TalentLMS. Dashboards as React islands.</td><td><span class="pill ok">Strongest</span><br>Best fit if Barakhadi becomes a large web app.</td><td><span class="pill high">Fair</span><br>Membership plugins. Custom dashboards are awkward.</td></tr>
+            <tr><td class="k">Time to MVP</td><td class="rec"><span class="pill ok">Fast</span><br>The design system and pages convert directly.</td><td><span class="pill med">Medium</span><br>More concepts to set up.</td><td><span class="pill med">Medium</span><br>Rebuild visually in Bricks. You've started this before.</td></tr>
+            <tr><td class="k">Lock-in</td><td class="rec"><span class="pill med">Low–moderate</span><br>Content is Markdown. D1 is SQLite. Cloudflare owns Astro since Jan 2026, but it stays MIT-licensed.</td><td><span class="pill med">Moderate</span><br>On Vercel.</td><td><span class="pill med">Moderate</span><br>Builder-specific layouts.</td></tr>
+            <tr><td class="k">Your experience</td><td class="rec"><span class="pill ok">Yes</span><br>ReachInUS (Astro 7.3) and ClearCue (Astro 6.4) already run this way.</td><td><span class="pill na">None found</span><br>OpenNext doesn't guarantee Windows support (needs WSL).</td><td><span class="pill ok">Yes</span><br>WordPress, Elementor and Bricks.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="options">
+        <article class="option rec">
+          <div class="option-head"><h3>A · Astro 7 on Cloudflare Workers</h3><span class="pill ok">Recommended</span></div>
+          <p>Pages are pre-built HTML from Markdown and <code>.astro</code> components, served from Cloudflare's edge. The same project includes server endpoints for checkout, the Stripe webhook and forms, with Cloudflare D1 (database), Queues (retries), Cron (nightly checks) and Turnstile (spam protection). Cloudflare acquired the Astro team in January 2026, and the Astro Cloudflare adapter now targets Workers rather than Pages.</p>
+          <div class="pc">
+            <div class="p"><h4>Pros</h4><ul class="small"><li>Cheapest and lowest-maintenance code option, with no server to patch.</li><li>Best page speed of the three, which helps SEO and ads.</li><li>Files in Git, so every Claude change is a reviewable diff, with a preview URL per branch.</li><li>One platform for the site, payments, background jobs and DNS.</li><li>The same setup as your other two sites, so the tooling and habits carry over.</li></ul></div>
+            <div class="c"><h4>Cons</h4><ul class="small"><li>Astro 7 is only 4 months old, so some AI-generated code may target Astro 5/6 patterns. A <code>CLAUDE.md</code> file and the docs MCP server mitigate this.</li><li>Rich app-like dashboards are less natural than in Next.js. Islands cover what we need.</li><li>Cloudflare-specific pieces (D1, Queues) tie the backend to Cloudflare.</li><li>Still needs a monthly dependency update. Astro had a few security advisories in 2026.</li></ul></div>
+          </div>
+        </article>
+
+        <article class="option">
+          <div class="option-head"><h3>B · Next.js 16 (Vercel, or Cloudflare via OpenNext)</h3><span class="tag">Strong for apps, heavy for a 4-page site</span></div>
+          <p>The React full-stack framework with the most tutorials and the most AI training data. It would be the pick if Barakhadi turned into a large logged-in web app.</p>
+          <div class="pc">
+            <div class="p"><h4>Pros</h4><ul class="small"><li>The most examples for Stripe, auth and dashboards.</li><li>Excellent SEO tooling and preview deploys.</li><li>The best path if teacher and school dashboards become the main product.</li></ul></div>
+            <div class="c"><h4>Cons</h4><ul class="small"><li>A high security-patch cadence in 2025–26, including several critical remote-code-execution bugs.</li><li>Vercel costs $20/mo or more for commercial use. OpenNext on Cloudflare needs WSL on Windows and a paid plan for bundle size.</li><li>More concepts to learn (server and client components, caching), and it ships more JS to every page.</li></ul></div>
+          </div>
+        </article>
+
+        <article class="option">
+          <div class="option-head"><h3>C · WordPress + Bricks Builder on Cloudways</h3><span class="tag">The minimum change</span></div>
+          <p>Swap Elementor for Bricks and keep WordPress and Cloudways. You know this world, but it keeps the exact problems you want to leave.</p>
+          <div class="pc">
+            <div class="p"><h4>Pros</h4><ul class="small"><li>A familiar visual editor, with no code needed for page edits.</li><li>A huge plugin ecosystem (SEO, forms, memberships).</li><li>No DNS or hosting migration.</li></ul></div>
+            <div class="c"><h4>Cons</h4><ul class="small"><li>Constant updates and security exposure: 11,334 new WordPress-ecosystem vulnerabilities in 2025, 91% of them in plugins.</li><li>Content lives in MySQL, which makes AI edits risky and impossible to review.</li><li>Subscriptions need paid plugins, or you keep a separate Worker anyway.</li><li>The highest ongoing cost of the three.</li></ul></div>
+          </div>
+        </article>
+      </div>
+
+      <details>
+        <summary>Also considered and set aside</summary>
+        <ul class="small">
+          <li><b>Plain HTML + a Worker</b> (what the prototype was): zero dependencies, but you hand-build layouts, the blog, sitemaps, image optimization and i18n. Astro outputs the same static HTML and does those for you.</li>
+          <li><b>SvelteKit</b>: excellent on Cloudflare, but version 3 is still a release candidate and its main new feature is experimental.</li>
+          <li><b>Webflow or Framer</b>: visual-editor-first, per-site fees, not Git or AI friendly, and you'd still need a Worker for the Stripe → TalentLMS step.</li>
+          <li><b>Headless WordPress</b>: keeps WordPress to patch <i>and</i> adds a separate frontend. The worst of both.</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- को PLAN -->
+    <section id="plan">
+      <div class="sec-head"><span class="mk" aria-hidden="true">को</span><h2>Recommended plan</h2><span class="sub">Option A, in four phases on one codebase</span></div>
+
+      <div class="arch" role="img" aria-label="Architecture: visitors reach barakhadi.com on Cloudflare. One Astro Worker serves static pages and API routes. The Stripe webhook writes to D1 and a queue, which provisions users in TalentLMS API v2. Students learn at learn.barakhadi.com, the TalentLMS custom domain, through one-click login links.">
+        <svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="arrowhead"/></marker>
+          </defs>
+          <!-- visitors -->
+          <rect x="20" y="40" width="150" height="70" rx="12" class="box"/>
+          <text x="95" y="70" text-anchor="middle" class="ttl">Parents, kids,</text>
+          <text x="95" y="90" text-anchor="middle" class="ttl">teachers</text>
+          <!-- cloudflare worker -->
+          <rect x="230" y="20" width="390" height="230" rx="14" class="box-o"/>
+          <text x="250" y="46" class="ttl">barakhadi.com · Cloudflare Worker (Astro 7)</text>
+          <rect x="250" y="62" width="170" height="78" rx="10" class="box"/>
+          <text x="262" y="86" class="ttl" style="font-size:13.5px">Static pages</text>
+          <text x="262" y="106" class="small">Home, FAQ, Pricing, Schools,</text>
+          <text x="262" y="122" class="small">Blog, Privacy, Terms</text>
+          <rect x="432" y="62" width="170" height="78" rx="10" class="box"/>
+          <text x="444" y="86" class="ttl" style="font-size:13.5px">API routes</text>
+          <text x="444" y="106" class="mono">/api/checkout  /api/portal</text>
+          <text x="444" y="122" class="mono">/api/stripe/webhook</text>
+          <rect x="250" y="152" width="110" height="80" rx="10" class="box"/>
+          <text x="262" y="176" class="ttl" style="font-size:13.5px">D1</text>
+          <text x="262" y="196" class="small">events, customers,</text>
+          <text x="262" y="212" class="small">entitlements</text>
+          <rect x="370" y="152" width="110" height="80" rx="10" class="box"/>
+          <text x="382" y="176" class="ttl" style="font-size:13.5px">Queue</text>
+          <text x="382" y="196" class="small">retries, then</text>
+          <text x="382" y="212" class="small">alert email</text>
+          <rect x="490" y="152" width="112" height="80" rx="10" class="box"/>
+          <text x="502" y="176" class="ttl" style="font-size:13.5px">Cron</text>
+          <text x="502" y="196" class="small">nightly reconcile,</text>
+          <text x="502" y="212" class="small">progress sync</text>
+          <!-- stripe -->
+          <rect x="690" y="30" width="190" height="80" rx="12" class="box-b"/>
+          <text x="785" y="62" text-anchor="middle" class="ttl">Stripe</text>
+          <text x="785" y="84" text-anchor="middle" class="small">Checkout · Billing · Portal</text>
+          <!-- talentlms -->
+          <rect x="690" y="160" width="190" height="80" rx="12" class="box-g"/>
+          <text x="785" y="190" text-anchor="middle" class="ttl">TalentLMS API v2</text>
+          <text x="785" y="212" text-anchor="middle" class="small">users · groups · progress</text>
+          <!-- learn domain -->
+          <rect x="330" y="295" width="340" height="66" rx="12" class="box-g"/>
+          <text x="500" y="322" text-anchor="middle" class="ttl">learn.barakhadi.com</text>
+          <text x="500" y="344" text-anchor="middle" class="small">TalentLMS portal on your domain, where the lessons run</text>
+          <!-- arrows -->
+          <path d="M170 75 L245 75" class="line" marker-end="url(#ah)"/>
+          <path d="M602 85 L685 70" class="line" marker-end="url(#ah)"/>
+          <path d="M685 95 L606 118" class="line dash" marker-end="url(#ah)"/>
+          <text x="618" y="132" class="small">webhook</text>
+          <path d="M480 192 L490 192" class="line"/>
+          <path d="M602 200 L685 200" class="line" marker-end="url(#ah)"/>
+          <path d="M95 110 L95 328 L325 328" class="line dash" marker-end="url(#ah)"/>
+          <text x="108" y="316" class="small">one-click login link</text>
+          <path d="M785 240 L785 328 L675 328" class="line" />
+        </svg>
+      </div>
+
+      <div class="phases">
+        <div class="phase p1">
+          <span class="when">Phase 1 · first</span>
+          <h3>Replace WordPress</h3>
+          <ul>
+            <li>New repo in <code>barakhadi-web</code> (private GitHub) with Astro 7 + Tailwind 4 and the redesign's design system, fixed for contrast and with a mobile menu.</li>
+            <li>Pages: Home, FAQ (<code>/faq/</code>), Contact (<code>/contact-us/</code>), How it works (videos), Privacy, Terms.</li>
+            <li>Free-trial links and Login go to TalentLMS as they do today. No payments yet.</li>
+            <li>Contact form with Turnstile, sending email through Resend.</li>
+            <li>SEO basics, Cloudflare Web Analytics, a <code>noindex</code> staging URL.</li>
+            <li>Move DNS from Namecheap to Cloudflare, add email routing, 301/410 redirects, then cancel Cloudways.</li>
+          </ul>
+        </div>
+        <div class="phase p2">
+          <span class="when">Phase 2</span>
+          <h3>Sell on barakhadi.com</h3>
+          <ul>
+            <li>Stripe products: family subscription (monthly or annual, with a trial), one-time course, school seats priced per seat.</li>
+            <li>Verified webhook → D1 → Queue → TalentLMS v2: create the user, add them to the level group, activate or deactivate.</li>
+            <li>No password at checkout. Welcome email with a login link.</li>
+            <li>Stripe Customer Portal for cards, renewals and cancellations.</li>
+            <li>Alert emails and a nightly reconciliation.</li>
+          </ul>
+        </div>
+        <div class="phase p3">
+          <span class="when">Phase 3</span>
+          <h3>Learn on your domain</h3>
+          <ul>
+            <li>Point <code>learn.barakhadi.com</code> at TalentLMS with a CNAME, and brand the portal.</li>
+            <li>"Go to my lessons" button using TalentLMS one-time login links.</li>
+            <li>Catalog pages generated from TalentLMS course data.</li>
+          </ul>
+        </div>
+        <div class="phase p4">
+          <span class="when">Phase 4 · later</span>
+          <h3>Accounts and teacher area</h3>
+          <ul>
+            <li>Parent and teacher accounts on barakhadi.com (Better Auth + D1).</li>
+            <li>Optional single sign-on into TalentLMS, with barakhadi.com as the identity provider.</li>
+            <li>Teacher and school dashboard: class rosters, progress and assignments from API v2, cached.</li>
+            <li>Schools manage their purchased seats themselves.</li>
+            <li>Revisit the TalentLMS plan if Group Supervisor or more branches would replace custom work.</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="small muted">Expected running cost after Phase 2: $0–5/month for Cloudflare, about $10/year for the domain, and Stripe fees (about 2.9% + 30¢ per card payment, plus 0.7% Billing for subscriptions, plus 0.5% if you use Stripe Tax). Resend's free tier covers 3,000 emails/month.</p>
+    </section>
+
+    <!-- कौ QUESTIONS -->
+    <section id="questions">
+      <div class="sec-head"><span class="mk" aria-hidden="true">कौ</span><h2>Decisions for you</h2><span class="sub">Phase 1 needs the first five</span></div>
+      <ol class="qlist">
+        <li><div><p><b>Which TalentLMS portal is the real one going forward: <code>marathi</code> or <code>indml-marathi</code>?</b></p><p>The Login link, trial links and later the custom domain all depend on it.</p></div></li>
+        <li><div><p><b>Go with Option A (Astro + Cloudflare)?</b></p><p>If yes, I'll set up the repo and staging site in <code>barakhadi-web</code>.</p></div></li>
+        <li><div><p><b>What price should the new site show at launch?</b></p><p>The FAQ says $5/month billed annually and the subscribe page says $60 one-time. USD only, or also INR and GBP?</p></div></li>
+        <li><div><p><b>Can you give me access to Namecheap DNS when we're ready to move?</b></p><p>Moving DNS to Cloudflare means changing two nameservers there. Also tell me where info@barakhadi.com mail should go, since it isn't currently being received.</p></div></li>
+        <li><div><p><b>Settle the copy conflicts:</b> activity count (100 vs 300+), founder names, contact email, www vs non-www.</p><p>I'll default to keeping <code>www.barakhadi.com</code>, which is what Google has indexed today.</p></div></li>
+        <li><div><p><b>Where is the business registered for Stripe?</b></p><p>"Barakhadi LLC" suggests the US. That determines currencies, UPI for Indian families, and tax handling. Stripe India is invite-only for new accounts.</p></div></li>
+        <li><div><p><b>Check your TalentLMS plan details</b> (Home → Subscription): user limit, branches, SSO, custom domain.</p><p>That decides how much of Phases 3–4 TalentLMS covers natively.</p></div></li>
+        <li><div><p><b>Is Wistia still active</b> for the demo videos?</p><p>If not, we can host them on Cloudflare Stream or YouTube.</p></div></li>
+      </ol>
+    </section>
+
+    <!-- कं SOURCES -->
+    <section id="sources">
+      <div class="sec-head"><span class="mk" aria-hidden="true">कं</span><h2>Sources</h2><span class="sub">Primary sources checked Oct 2026</span></div>
+      <ul class="sources">
+        <li><a href="https://blog.cloudflare.com/astro-joins-cloudflare/">Cloudflare: Astro joins Cloudflare</a></li>
+        <li><a href="https://astro.build/blog/astro-7/">Astro 7 release</a> · <a href="https://astro.build/blog/astro-740/">Astro 7.4</a></li>
+        <li><a href="https://docs.astro.build/en/guides/integrations-guide/cloudflare/">Astro Cloudflare adapter docs</a></li>
+        <li><a href="https://docs.astro.build/en/guides/build-with-ai/">Astro: building with AI (MCP server)</a></li>
+        <li><a href="https://developers.cloudflare.com/workers/static-assets/migrate-from-pages/">Cloudflare: migrate from Pages to Workers</a></li>
+        <li><a href="https://developers.cloudflare.com/workers/platform/pricing/">Cloudflare Workers pricing</a></li>
+        <li><a href="https://developers.cloudflare.com/queues/configuration/batching-retries/">Cloudflare Queues: retries and dead-letter queues</a></li>
+        <li><a href="https://developers.cloudflare.com/workers/static-assets/redirects/">Cloudflare: _redirects</a></li>
+        <li><a href="https://developers.cloudflare.com/dns/zone-setups/full-setup/setup/">Cloudflare: full DNS setup</a></li>
+        <li><a href="https://better-auth.com/blog/1-5">Better Auth 1.5 (D1 support)</a></li>
+        <li><a href="https://bricksbuilder.io/pricing/">Bricks Builder pricing</a></li>
+        <li><a href="https://docs.stripe.com/billing/subscriptions/trials">Stripe: subscription trials</a></li>
+        <li><a href="https://docs.stripe.com/subscriptions/pricing-models/per-seat-pricing">Stripe: per-seat pricing</a></li>
+        <li><a href="https://docs.stripe.com/billing/subscriptions/webhooks">Stripe: subscription webhooks</a></li>
+        <li><a href="https://docs.stripe.com/payments/checkout/localize-prices/adaptive-pricing">Stripe: Adaptive Pricing</a></li>
+        <li><a href="https://docs.stripe.com/payments/managed-payments">Stripe: Managed Payments</a></li>
+        <li><a href="https://developers.talentlms.io/intro">TalentLMS Developer Hub (API v2)</a></li>
+        <li><a href="https://developers.talentlms.io/legacy-api">TalentLMS: legacy API v1 status</a></li>
+        <li><a href="https://developers.talentlms.io/api/login-user">TalentLMS: one-time login link</a></li>
+        <li><a href="https://help.talentlms.com/hc/en-us/articles/24874457011356-TalentLMS-API-V2">TalentLMS Help: API V2</a></li>
+        <li><a href="https://help.talentlms.com/hc/en-us/articles/14872333440028-How-to-white-label-your-TalentLMS-portal">TalentLMS: white-labelling and custom domain</a></li>
+        <li><a href="https://help.talentlms.com/hc/en-us/articles/9651815458844-How-to-work-with-subscriptions-in-TalentLMS">TalentLMS: built-in subscriptions</a></li>
+        <li><a href="https://help.talentlms.com/hc/en-us/articles/27464091325340-What-is-the-Group-Supervisor-role-in-TalentLMS-and-how-it-works">TalentLMS: Group Supervisor role</a></li>
+        <li><a href="https://help.talentlms.com/hc/en-us/articles/9651522351260-What-is-the-difference-between-groups-and-branches-in-TalentLMS">TalentLMS: groups vs branches</a></li>
+        <li><a href="https://help.talentlms.com/hc/en-us/articles/9651457002908-How-to-trigger-a-custom-action-when-users-complete-a-specific-course-in-TalentLMS">TalentLMS: completion automation</a></li>
+      </ul>
+      <p class="small muted">Also used: the live site's HTML, sitemaps and WP REST API; the staging site; the git history of <code>Barakhadi-New</code>; the Worker code and settings from the Cloudflare API; DNS lookups for barakhadi.com. Some figures come from third-party sources and should be checked before committing: Cloudways' entry price ($11 vs $14), Clerk Pro pricing, and whether TalentLMS e-commerce is available on every plan.</p>
+    </section>
+
+  </main>
+</div>
+
+<footer class="foot">
+  <div class="wrap">Barakhadi Rebuild Assessment · 17 Oct 2026 · Supporting notes and the redacted Worker code are in <span class="mono">barakhadi-web/docs/</span>.</div>
+</footer>
+
+</body>
+</html>

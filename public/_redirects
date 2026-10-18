@@ -1,0 +1,11 @@
+# Old WordPress URLs -> new pages (301 = permanent, keeps search ranking)
+/videos/            /#intro-video           301
+/videos             /#intro-video           301
+/contact            /contact-us/            301
+/contact/           /contact-us/            301
+/feed/              /                       301
+/wp-login.php       /                       301
+/wp-admin/*         /                       301
+
+# WordPress leftovers (/test/, /sample-page/, /hello-world/, /category/uncategorized/)
+# are intentionally not redirected: they return 404 so search engines drop them.

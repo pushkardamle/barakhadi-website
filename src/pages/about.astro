@@ -1,0 +1,151 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { site } from '@/data/site';
+
+const team = [
+  {
+    name: 'Deepti Pandit',
+    role: 'Co-founder and lead educator',
+    initial: 'D',
+    bio: 'Deepti brings 15 years of elementary teaching experience and more than 20 years of teaching Marathi to students of all ages. She designs the lessons and activities, with a focus on making Marathi accessible, fun and culturally meaningful.',
+  },
+  {
+    name: 'Pushkar Damle',
+    role: 'Co-founder and product lead',
+    initial: 'P',
+    bio: 'Pushkar has 22 years of experience in product management and analytics. He builds and runs the Barakhadi platform so that learners, parents and teachers get a smooth experience.',
+  },
+];
+
+// The twelve vowels and the form क takes with each: the first row of the barakhadi.
+const barakhadi = [
+  ['अ', 'क'], ['आ', 'का'], ['इ', 'कि'], ['ई', 'की'], ['उ', 'कु'], ['ऊ', 'कू'],
+  ['ए', 'के'], ['ऐ', 'कै'], ['ओ', 'को'], ['औ', 'कौ'], ['अं', 'कं'], ['अः', 'कः'],
+];
+
+const values = [
+  { title: 'Learning should be fun', text: 'If it feels like work, kids tune out. Every activity is designed to be engaging, interactive and joyful.', tone: 'red' },
+  { title: 'Heritage matters', text: "Language is more than words. It's culture, connection and identity, and we're proud to help families keep it alive.", tone: 'green' },
+  { title: 'Quality in every activity', text: 'Each activity is crafted by experienced teachers, tested with real students and refined over time.', tone: 'blue' },
+];
+---
+
+<Base title="About us" description="Barakhadi was created by experienced Marathi teachers and technology experts to help families keep their Marathi heritage alive.">
+  <PageHeader tone="blue" title="About Barakhadi" intro="Created by educators, built for families who want to keep Marathi alive across generations." />
+
+  <section class="section">
+    <div class="container-site">
+      <div class="prose-site text-ink-soft">
+        <h2 class="!mt-0 text-ink">Our story</h2>
+        <p>
+          Barakhadi was born from a simple goal: help families keep their Marathi heritage alive. Many children of Marathi families abroad want to learn the language, but textbooks and weekend classes alone often struggle to hold their attention.
+        </p>
+        <p>
+          We knew there had to be a better way, one that meets kids where they are, uses the technology they enjoy and feels like play rather than work. So experienced Marathi teachers and technology experts built Barakhadi together: {site.activityCount} interactive activities for conversation, reading and writing.
+        </p>
+        <p>
+          Today Barakhadi is used by families learning at home and by Marathi shalas, where teachers run their classes on it.
+        </p>
+      </div>
+
+      <figure class="barakhadi-strip">
+        <figcaption>
+          <span class="strip-title">Where the name comes from</span>
+          <span lang="mr">बारा</span> means twelve. The <span lang="mr">बाराखडी</span> is the chart of the twelve forms every consonant takes, one for each vowel sign. It is where every Marathi reader starts.
+        </figcaption>
+        <div class="strip" lang="mr" role="table" aria-label="The barakhadi for क: each vowel and the form क takes with it">
+          {barakhadi.map(([vowel, form], i) => (
+            <div class="strip-col" role="row">
+              <span class="vowel" role="cell">{vowel}</span>
+              <span class={`form tone-${i % 3}`} role="cell">{form}</span>
+            </div>
+          ))}
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section bg-mist" aria-labelledby="team-title">
+    <div class="container-site">
+      <h2 id="team-title" class="h-section text-center">Meet the team</h2>
+      <ul class="mt-16 grid gap-7 md:mt-20 md:grid-cols-2">
+        {team.map((p, i) => (
+          <li class="person">
+            <span class:list={['initial', { alt: i === 1 }]} aria-hidden="true">{p.initial}</span>
+            <div>
+              <h3 class="text-2xl">{p.name}</h3>
+              <p class="role">{p.role}</p>
+              <p class="mt-3 text-ink-soft">{p.bio}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="values-title">
+    <div class="container-site">
+      <h2 id="values-title" class="h-section text-center">What we believe</h2>
+      <ul class="mt-16 grid gap-7 md:mt-20 md:grid-cols-3">
+        {values.map((v) => (
+          <li class={`value tone-${v.tone}`}>
+            <h3 class="text-xl">{v.title}</h3>
+            <p class="mt-2 text-ink-soft">{v.text}</p>
+          </li>
+        ))}
+      </ul>
+      <div class="mt-14 text-center">
+        <a href="/#try-free" class="btn btn-primary">Try a free activity</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* बाराखडी strip: vowels on top, the form क takes below, read left to right */
+  .barakhadi-strip { margin: 3.5rem 0 0; padding: 1.75rem; border-radius: 1.5rem; background: var(--color-mist); }
+  .barakhadi-strip figcaption { max-width: 62ch; color: var(--color-ink-soft); }
+  .strip-title { display: block; margin-bottom: 0.3rem; font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; color: var(--color-ink); }
+  .strip { margin-top: 1.5rem; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.9rem 0.6rem; }
+  @media (min-width: 900px) { .strip { grid-template-columns: repeat(12, minmax(0, 1fr)); } }
+  .strip-col { display: grid; justify-items: center; gap: 0.45rem; }
+  .vowel { font-size: 1.15rem; font-weight: 600; color: var(--color-ink-soft); line-height: 1.2; }
+  .form {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 0.8rem;
+    color: #fff;
+    font-size: clamp(1.4rem, 3.2vw, 2rem);
+    font-weight: 800;
+    line-height: 1;
+    padding-top: 0.08em;
+  }
+  .tone-0 { background: var(--color-red); }
+  .tone-1 { background: var(--color-blue); }
+  .tone-2 { background: var(--color-green); }
+
+  .person { display: flex; gap: 1.25rem; padding: 1.75rem; border-radius: var(--radius-card); background: #fff; box-shadow: 0 6px 20px rgb(0 0 0 / 0.06); }
+  .initial {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    background: var(--color-green);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+  }
+  .initial.alt { background: var(--color-blue); color: #fff; }
+  .role { font-weight: 700; color: var(--color-green-ink); }
+
+  .tone-red { --tone: var(--color-red); }
+  .tone-green { --tone: var(--color-green); }
+  .tone-blue { --tone: var(--color-blue); }
+  .value { padding: 1.75rem; border-radius: var(--radius-card); border-top: 6px solid var(--tone); background: var(--color-mist); }
+</style>

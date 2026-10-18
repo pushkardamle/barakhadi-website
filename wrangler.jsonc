@@ -1,0 +1,18 @@
+{
+	// Cloudflare Worker that serves the Astro site (prerendered pages as static assets,
+	// plus on-demand routes such as the contact form).
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "barakhadi-web",
+	"compatibility_date": "2026-10-01",
+	"compatibility_flags": ["global_fetch_strictly_public"],
+	"main": "@astrojs/cloudflare/entrypoints/server",
+	"assets": {
+		"directory": "./dist",
+		"binding": "ASSETS"
+	},
+	"observability": {
+		"enabled": true
+	}
+	// Secrets (Resend key, Turnstile secret, later Stripe and TalentLMS keys) are set with
+	// `npx wrangler secret put NAME` and never committed. Local values go in .dev.vars (git-ignored).
+}

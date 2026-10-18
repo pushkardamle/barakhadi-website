@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+import mark from '@/assets/images/logo-mark.png';
+import { footerNav, lms, site } from '@/data/site';
+import NewTabIcon from '@/components/NewTabIcon.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container-site grid gap-10 py-14 md:grid-cols-[1.4fr_repeat(3,1fr)]">
+    <div class="grid content-start gap-4">
+      <div class="flex items-center gap-3">
+        <Image src={mark} alt="" widths={[48, 96]} sizes="48px" class="size-12" />
+        <span class="font-display text-2xl font-bold text-white">{site.name} <span lang="mr" class="text-orange">{site.nameMarathi}</span></span>
+      </div>
+      <p class="max-w-xs text-[0.95rem]">Interactive Marathi activities for kids, families and Marathi schools.</p>
+      <p class="text-[0.95rem]">
+        Questions? Write to us at<br />
+        <a href={`mailto:${site.email}`} class="font-bold text-white">{site.email}</a>
+      </p>
+    </div>
+    {footerNav.map((col) => (
+      <div>
+        <h2 class="mb-4 font-display text-base font-bold text-orange">{col.heading}</h2>
+        <ul class="grid gap-2.5">
+          {col.links.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+          {col.heading === 'Barakhadi' && <li><a href={lms.loginUrl} target="_blank" rel="noopener">Log in<NewTabIcon /></a></li>}
+        </ul>
+      </div>
+    ))}
+  </div>
+  <div class="border-t border-white/10">
+    <p class="container-site py-5 text-center text-sm text-white/60">
+      &copy; {year} {site.company}. All rights reserved.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-night);
+    color: #d4d8d5;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .site-footer ul a {
+    color: #d4d8d5;
+    text-decoration: none;
+    font-size: 0.98rem;
+  }
+  .site-footer ul a:hover { color: var(--color-orange); text-decoration: underline; }
+</style>

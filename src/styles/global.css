@@ -1,0 +1,161 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Barakhadi design tokens.
+   Palette comes from the four letters of the बाराखडी logo.
+   Change the hero look in one place: --hero-bg / --hero-ink.
+   ------------------------------------------------------------------ */
+@theme {
+  /* Logo colours */
+  --color-green: #119b49;
+  --color-green-dark: #0d7a37;
+  --color-green-ink: #0b5e2b;   /* green text on white (AA) */
+  --color-green-soft: #e8f5e9;
+  --color-orange: #f7941d;
+  --color-orange-dark: #e07f06;
+  --color-orange-ink: #9a4f00;  /* orange text on white (AA) */
+  --color-orange-soft: #fff3e0;
+  --color-blue: #0f75bc;
+  --color-blue-soft: #e3f0fa;
+  --color-red: #d44136;
+  --color-red-ink: #b3261e;
+  --color-red-soft: #fdecea;
+
+  /* Neutrals */
+  --color-ink: #1a1a1a;
+  --color-ink-soft: #4a4a4a;
+  --color-line: #e5e7e3;
+  --color-mist: #f6f8f5;
+  --color-cream: #fff8e1;
+  --color-night: #1a1d1b;
+
+  /* Type */
+  --font-display: var(--font-outfit), "Baloo 2", system-ui, sans-serif;
+  --font-sans: var(--font-nunito), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-marathi: var(--font-baloo), "Noto Sans Devanagari", "Nirmala UI", sans-serif;
+
+  --radius-card: 1.25rem;
+  --radius-pill: 999px;
+}
+
+:root {
+  --hero-bg: linear-gradient(100deg, #66bb6a 0%, #81c784 50%, #c8e6c9 100%);
+  --hero-ink: var(--color-ink);
+  --gutter: max(1.25rem, env(safe-area-inset-left, 0px));
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: #fff;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  @media (min-width: 768px) {
+    body { font-size: 1.125rem; }
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.15;
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+  }
+  /* Any Marathi run, wherever it appears */
+  :lang(mr) {
+    font-family: var(--font-marathi);
+    letter-spacing: 0;
+  }
+  a { color: var(--color-blue); text-underline-offset: 3px; }
+  :focus-visible {
+    outline: 3px solid var(--color-orange);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  img { max-width: 100%; height: auto; }
+}
+
+@layer components {
+  .container-site {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-left: var(--gutter);
+    padding-right: max(1.25rem, env(safe-area-inset-right, 0px));
+  }
+  /* Top padding is smaller than bottom: headings sit where the old labels were, with more room below them. */
+  .section {
+    padding-block: 3.25rem 5.5rem;
+  }
+  @media (min-width: 768px) {
+    .section { padding-block: 5rem 7.5rem; }
+  }
+  .h-section {
+    font-size: clamp(1.9rem, 4.2vw, 3rem);
+  }
+  .lede {
+    font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+    color: var(--color-ink-soft);
+  }
+
+  /* Buttons: flat (no drop shadows); hover changes colour and lifts slightly.
+     Orange buttons use dark text: white on brand orange fails contrast. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3.25rem;
+    padding: 0.8rem 1.9rem;
+    border-radius: var(--radius-pill);
+    font-weight: 800;
+    font-size: 1.05rem;
+    line-height: 1.2;
+    text-decoration: none;
+    border: 3px solid transparent;
+    transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    cursor: pointer;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn:active { transform: translateY(0); }
+  .btn-primary {
+    background: var(--color-orange);
+    color: #2a1600;
+  }
+  .btn-primary:hover { background: var(--color-orange-dark); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-green-ink);
+    border-color: var(--color-green-dark);
+  }
+  .btn-secondary:hover { background: var(--color-green-dark); color: #fff; }
+  .btn-light {
+    background: #fff;
+    color: var(--color-green-ink);
+  }
+  .btn-light:hover { background: var(--color-green-soft); }
+  .btn-outline-light {
+    background: transparent;
+    color: #fff;
+    border-color: #fff;
+  }
+  .btn-outline-light:hover { background: #fff; color: var(--color-green-ink); }
+
+  /* Long-form text (FAQ answers, legal pages) */
+  .prose-site { max-width: 70ch; }
+  .prose-site > * + * { margin-top: 1rem; }
+  .prose-site h2 { font-size: 1.6rem; margin-top: 2.5rem; }
+  .prose-site h3 { font-size: 1.25rem; margin-top: 1.75rem; }
+  .prose-site ul { list-style: disc; padding-left: 1.4rem; }
+  .prose-site ol { list-style: decimal; padding-left: 1.4rem; }
+  .prose-site li + li { margin-top: 0.4rem; }
+}

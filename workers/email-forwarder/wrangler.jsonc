@@ -1,0 +1,15 @@
+{
+	// Email Worker: fans out mail for info@barakhadi.com to several verified addresses.
+	// Deploy: cd workers/email-forwarder && npx wrangler deploy
+	// Then in Cloudflare: Email Routing -> Routing rules -> info@ -> "Send to a Worker" -> barakhadi-email-forwarder
+	"$schema": "../../node_modules/wrangler/config-schema.json",
+	"name": "barakhadi-email-forwarder",
+	"main": "src/index.js",
+	"compatibility_date": "2026-10-01",
+	"workers_dev": false,
+	"observability": { "enabled": true },
+	"vars": {
+		// Comma-separated. Each address must be verified under Email Routing -> Destination addresses.
+		"FORWARD_TO": "pushkard@gmail.com, deepti_pandit@hotmail.com"
+	}
+}
