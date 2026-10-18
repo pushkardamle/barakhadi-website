@@ -72,6 +72,9 @@ const organization = {
         t.setAttribute('data-tracking-host', umHost);
         t.setAttribute('data-key', umKey);
         t.setAttribute('data-autocapture', 'true');
+        // Privacy mode: no cookies, so no consent banner is needed. (Form tracking is deliberately off:
+        // it would record what people type into the contact form; we send a contact_form_submitted event instead.)
+        t.setAttribute('data-privacy-policy', 'strict');
         t.setAttribute('data-randomize-url', 'true');
         t.src = umHost + '/lib.js';
         s.parentNode.insertBefore(t, s);
