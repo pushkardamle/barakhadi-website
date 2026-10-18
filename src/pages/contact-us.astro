@@ -3,8 +3,8 @@ import Base from '@/layouts/Base.astro';
 import PageHeader from '@/components/PageHeader.astro';
 import { site } from '@/data/site';
 
-// Public Turnstile site key. The default is Cloudflare's test key, which always passes; the real key is set at launch.
-const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA';
+// Turnstile site key. Local dev uses Cloudflare's always-pass test key (the real key only works on the site's hostnames).
+const turnstileSiteKey = import.meta.env.DEV ? '1x00000000000000000000AA' : site.turnstileSiteKey;
 
 const topics = [
   { value: 'subscribe', label: 'Subscribing a student' },
