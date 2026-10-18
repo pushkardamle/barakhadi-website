@@ -3,7 +3,7 @@
 export const site = {
   // false while the site lives on a staging URL: every page gets noindex and robots.txt blocks crawlers.
   // Flip to true at launch on www.barakhadi.com.
-  launched: false,
+  launched: true,
   name: 'Barakhadi',
   nameMarathi: 'बाराखडी',
   company: 'Barakhadi LLC',

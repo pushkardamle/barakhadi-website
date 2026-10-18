@@ -73,7 +73,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     `Name: ${name}`,
     `Email: ${email}`,
     `Phone: ${phone || '(not given)'}`,
-    `City, country: ${location || '(not given)'}`,
+    `City, Country: ${location || '(not given)'}`,
     `Topic: ${topic}`,
     '',
     message,
@@ -96,7 +96,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       from: `Barakhadi website <${vars.CONTACT_FROM ?? 'website@barakhadi.com'}>`,
       to: [vars.CONTACT_TO ?? site.email],
       reply_to: email,
-      subject: `Website: ${topic} (${name})`,
+      subject: `Message from the Website: ${topic} (${name})`,
       text,
     }),
   });

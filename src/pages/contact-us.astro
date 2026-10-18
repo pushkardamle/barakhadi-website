@@ -53,7 +53,7 @@ const topics = [
             <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="30" />
           </div>
           <div class="field">
-            <label for="location">City, country <span class="opt">(optional)</span></label>
+            <label for="location">City, Country <span class="opt">(optional)</span></label>
             <input id="location" name="location" type="text" autocomplete="address-level2" maxlength="100" placeholder="e.g. Pune, India" />
           </div>
         </div>
@@ -120,7 +120,7 @@ const topics = [
         form.reset();
         // @ts-expect-error turnstile is a global from the Cloudflare script
         window.turnstile?.reset();
-        showStatus("Thanks! Your message is on its way. We'll reply by email.", true);
+        showStatus("Thank you! Your message is on its way. We'll reply by email within 24-48 hours.", true);
       } else {
         showStatus(body.error ?? 'Something went wrong sending your message. Please email us instead.', false);
       }

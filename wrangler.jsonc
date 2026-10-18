@@ -13,6 +13,12 @@
 	"observability": {
 		"enabled": true
 	},
+	// Serve www.barakhadi.com and barakhadi.com. Routes take effect once the DNS records are proxied (orange cloud);
+	// switching them back to "DNS only" sends traffic to the old host again. barakhadi.com -> www is a Cloudflare Redirect Rule.
+	"routes": [
+		{ "pattern": "www.barakhadi.com/*", "zone_name": "barakhadi.com" },
+		{ "pattern": "barakhadi.com/*", "zone_name": "barakhadi.com" }
+	],
 	// Keep variables added in the Cloudflare dashboard when deploying from here (secrets are always kept).
 	"keep_vars": true
 	// Secrets (Resend key, Turnstile secret, later Stripe and TalentLMS keys) are set with
