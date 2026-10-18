@@ -15,6 +15,8 @@ export const site = {
     'Learn Marathi the fun way. 300+ interactive activities for kids to read, write and speak Marathi, made by experienced Marathi teachers.',
   // Per student, per level, per year. More than one level: discounted price on request.
   priceUsdPerYear: 60,
+  // Usermaven analytics (public key; first-party tracking domain um.barakhadi.com = CNAME to Usermaven, DNS only).
+  usermaven: { key: 'UMBkQAFa4R', host: 'https://um.barakhadi.com' },
   // Cloudflare Turnstile site key (public; widget "barakhadi-website"). The secret key is a Worker secret.
   turnstileSiteKey: '0x4AAAAAAFal0-UmKDHqRLum',
   activityCount: '300+',

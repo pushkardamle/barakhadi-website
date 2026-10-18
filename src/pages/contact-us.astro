@@ -121,6 +121,7 @@ const topics = [
         // @ts-expect-error turnstile is a global from the Cloudflare script
         window.turnstile?.reset();
         showStatus("Thank you! Your message is on its way. We'll reply by email within 24-48 hours.", true);
+        (window as unknown as { usermaven?: (...args: unknown[]) => void }).usermaven?.('track', 'contact_form_submitted', { topic: chosenTopic });
       } else {
         showStatus(body.error ?? 'Something went wrong sending your message. Please email us instead.', false);
       }

@@ -95,7 +95,7 @@ const audiences = [
               </li>
             ))}
           </ul>
-          <a href={a.cta.href} class="btn btn-primary mt-8">{a.cta.label}</a>
+          <a href={a.cta.href} class="btn btn-primary mt-8" data-track="cta_clicked" data-track-cta={`who_${a.id}`}>{a.cta.label}</a>
         </div>
         <div class="shot">
           <Image src={a.image} alt={a.alt} widths={[480, 720, 1080]} sizes="(min-width: 968px) 520px, 100vw" />

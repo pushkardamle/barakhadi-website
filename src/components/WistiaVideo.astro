@@ -30,7 +30,7 @@ try {
 ---
 
 <div class:list={['wistia', className]} data-wistia-id={id} data-title={title}>
-  <button type="button" class="wistia-play" aria-label={`Play video: ${title}`}>
+  <button type="button" class="wistia-play" aria-label={`Play video: ${title}`} data-track="video_played" data-track-video={title}>
     {poster ? <img src={poster} alt="" loading="lazy" decoding="async" width="1280" height="720" /> : <span class="wistia-fallback" aria-hidden="true" />}
     <span class="wistia-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24" width="34" height="34"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg>

@@ -59,8 +59,37 @@ const organization = {
     <Font cssVariable="--font-nunito" preload />
     <Font cssVariable="--font-outfit" preload />
     <Font cssVariable="--font-baloo" />
-    <script type="application/ld+json" set:html={JSON.stringify([organization, ...schema])} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify([organization, ...schema])} />
     <meta name="generator" content={Astro.generator} />
+    {/* Usermaven (same setup as the old site). Cloudflare Web Analytics is injected automatically by Cloudflare. */}
+    {site.launched && !import.meta.env.DEV && (
+      <script is:inline define:vars={{ umKey: site.usermaven.key, umHost: site.usermaven.host }}>
+        window.usermaven = window.usermaven || function () { (window.usermavenQ = window.usermavenQ || []).push(arguments); };
+        var t = document.createElement('script');
+        var s = document.getElementsByTagName('script')[0];
+        t.defer = true;
+        t.id = 'um-tracker';
+        t.setAttribute('data-tracking-host', umHost);
+        t.setAttribute('data-key', umKey);
+        t.setAttribute('data-autocapture', 'true');
+        t.setAttribute('data-randomize-url', 'true');
+        t.src = umHost + '/lib.js';
+        s.parentNode.insertBefore(t, s);
+      </script>
+    )}
+    {/* Named events: any element with data-track="event_name" sends that event on click,
+        with data-track-<prop>="value" attributes as its properties. */}
+    <script is:inline>
+      document.addEventListener('click', function (e) {
+        var el = e.target.closest && e.target.closest('[data-track]');
+        if (!el || !window.usermaven) return;
+        var props = {};
+        for (var k in el.dataset) {
+          if (k !== 'track' && k.indexOf('track') === 0) props[k.charAt(5).toLowerCase() + k.slice(6)] = el.dataset[k];
+        }
+        window.usermaven('track', el.dataset.track, props);
+      }, true);
+    </script>
   </head>
   <body class="flex min-h-screen flex-col antialiased">
     <a

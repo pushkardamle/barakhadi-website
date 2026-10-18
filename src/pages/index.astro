@@ -96,7 +96,7 @@ const activityTones = ['green', 'blue', 'red'];
               <span class="skill-num" aria-hidden="true">{i + 1}</span>
               <h3>{s.title}</h3>
               <p>{s.text}</p>
-              <a href={s.activity.url} class="btn btn-primary" target="_blank" rel="noopener">
+              <a href={s.activity.url} class="btn btn-primary" target="_blank" rel="noopener" data-track="free_activity_started" data-track-activity={s.activity.key} data-track-location="core_skills">
                 Try a free {s.title.toLowerCase()} activity
                 <span aria-hidden="true">→</span>
                 <span class="sr-only">(opens in a new tab)</span>
@@ -146,7 +146,7 @@ const activityTones = ['green', 'blue', 'red'];
               <p class="text-ink-soft">{a.description}</p>
             </div>
             <div class="px-6 pb-6">
-              <a href={a.url} class="btn btn-primary w-full" target="_blank" rel="noopener">
+              <a href={a.url} class="btn btn-primary w-full" target="_blank" rel="noopener" data-track="free_activity_started" data-track-activity={a.key} data-track-location="try_free">
                 Start activity <span aria-hidden="true">→</span><span class="sr-only">(opens in a new tab)</span>
               </a>
             </div>
@@ -155,7 +155,7 @@ const activityTones = ['green', 'blue', 'red'];
       </ul>
       <div class="cta-strip mt-10">
         <p>Ready for full access to a level?</p>
-        <a href="/pricing/" class="btn btn-secondary">See pricing</a>
+        <a href="/pricing/" class="btn btn-secondary" data-track="cta_clicked" data-track-cta="try_free_pricing">See pricing</a>
       </div>
     </div>
   </section>
@@ -213,7 +213,7 @@ const activityTones = ['green', 'blue', 'red'];
           Marathi shalas use Barakhadi for their classes. Each class gets its own private space where teachers set assignments, grade them and follow every student's progress.
         </p>
       </div>
-      <a href="/who-its-for/#schools" class="btn btn-light shrink-0">Barakhadi for schools</a>
+      <a href="/who-its-for/#schools" class="btn btn-light shrink-0" data-track="cta_clicked" data-track-cta="schools_band">Barakhadi for schools</a>
     </div>
   </section>
 
@@ -223,8 +223,8 @@ const activityTones = ['green', 'blue', 'red'];
       <h2 id="final-title" class="h-section text-white">Ready to start your Marathi journey?</h2>
       <p lang="mr" class="final-marathi mt-2">{site.taglineMarathi}</p>
       <div class="mt-8 flex flex-wrap justify-center gap-4">
-        <a href="#try-free" class="btn btn-primary">Try free activities</a>
-        <a href="/contact-us/" class="btn btn-outline-light">Contact us</a>
+        <a href="#try-free" class="btn btn-primary" data-track="cta_clicked" data-track-cta="final_try_free">Try free activities</a>
+        <a href="/contact-us/" class="btn btn-outline-light" data-track="cta_clicked" data-track-cta="final_contact">Contact us</a>
       </div>
       <p class="mt-6 text-white/90">Questions? <a href="/faq/" class="font-bold text-white">Read the FAQ</a></p>
     </div>

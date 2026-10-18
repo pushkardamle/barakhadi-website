@@ -54,11 +54,11 @@ const offer = {
             </li>
           ))}
         </ul>
-        <a href="/contact-us/?topic=subscribe" class="btn btn-primary w-full">Contact us to subscribe</a>
+        <a href="/contact-us/?topic=subscribe" class="btn btn-primary w-full" data-track="pricing_cta_clicked" data-track-plan="student">Contact us to subscribe</a>
         <p class="fine">We'll set up the student's account and email you the login details.</p>
         <p class="multi">
           <strong>Want more than one level?</strong> We offer a discounted price for two or three levels.{' '}
-          <a href="/contact-us/?topic=levels">Ask about multi-level pricing</a>
+          <a href="/contact-us/?topic=levels" data-track="pricing_cta_clicked" data-track-plan="multi_level">Ask about multi-level pricing</a>
         </p>
       </article>
 
@@ -75,7 +75,7 @@ const offer = {
             </li>
           ))}
         </ul>
-        <a href="/contact-us/?topic=school" class="btn btn-secondary w-full">Ask about school packages</a>
+        <a href="/contact-us/?topic=school" class="btn btn-secondary w-full" data-track="pricing_cta_clicked" data-track-plan="school">Ask about school packages</a>
       </article>
     </div>
   </section>

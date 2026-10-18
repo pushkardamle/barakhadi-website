@@ -21,7 +21,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
         </li>
       ))}
       <li class="ml-3">
-        <a href={lms.loginUrl} class="btn btn-secondary login" target="_blank" rel="noopener">Log in<NewTabIcon /></a>
+        <a href={lms.loginUrl} class="btn btn-secondary login" target="_blank" rel="noopener" data-track="login_clicked" data-track-location="header">Log in<NewTabIcon /></a>
       </li>
     </ul>
 
@@ -40,7 +40,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
         </li>
       ))}
       <li class="pt-3 pb-2">
-        <a href={lms.loginUrl} class="btn btn-secondary w-full" target="_blank" rel="noopener">Log in<NewTabIcon /></a>
+        <a href={lms.loginUrl} class="btn btn-secondary w-full" target="_blank" rel="noopener" data-track="login_clicked" data-track-location="mobile_menu">Log in<NewTabIcon /></a>
       </li>
     </ul>
   </div>

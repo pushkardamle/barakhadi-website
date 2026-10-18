@@ -27,7 +27,7 @@ const year = new Date().getFullYear();
           {col.links.map((link) => (
             <li><a href={link.href}>{link.label}</a></li>
           ))}
-          {col.heading === 'Barakhadi' && <li><a href={lms.loginUrl} target="_blank" rel="noopener">Log in<NewTabIcon /></a></li>}
+          {col.heading === 'Barakhadi' && <li><a href={lms.loginUrl} target="_blank" rel="noopener" data-track="login_clicked" data-track-location="footer">Log in<NewTabIcon /></a></li>}
         </ul>
       </div>
     ))}
