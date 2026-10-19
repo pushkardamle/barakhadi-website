@@ -1,0 +1,305 @@
+<title>Barakhadi Activities Research</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Workbook layout shared with the earlier Barakhadi reports: masthead, numbered sections, tables that scroll on phones. */
+:root {
+  --bg: #FAFCF8; --surface: #F0F5EE; --surface-2: #FFFFFF; --ink: #17261D; --muted: #56645B; --line: #DCE5DA;
+  --green: #0F8A41; --orange: #A85500; --orange-soft: #FFF1DC;
+  --blue: #1B6FB3; --blue-soft: #E3F0FA; --crit: #B3261E; --crit-soft: #FBE5E3; --warn: #8A5A00; --warn-soft: #FFF3D6;
+  --ok: #0F7A3B; --ok-soft: #E2F4E8;
+  --font-display: "Baloo 2", "Nirmala UI", "Trebuchet MS", system-ui, sans-serif;
+  --font-body: "Nunito", "Nirmala UI", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  --radius: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111713; --surface: #18211B; --surface-2: #1D2720; --ink: #E6EEE8; --muted: #9DAAA2; --line: #2B372F;
+    --green: #4CC97E; --orange: #FFB454; --orange-soft: #33270F; --blue: #6DB3EA; --blue-soft: #15283A;
+    --crit: #FF8A80; --crit-soft: #3A1A18; --warn: #F2C063; --warn-soft: #33290F; --ok: #6AD69A; --ok-soft: #14301F; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111713; --surface: #18211B; --surface-2: #1D2720; --ink: #E6EEE8; --muted: #9DAAA2; --line: #2B372F;
+  --green: #4CC97E; --orange: #FFB454; --orange-soft: #33270F; --blue: #6DB3EA; --blue-soft: #15283A;
+  --crit: #FF8A80; --crit-soft: #3A1A18; --warn: #F2C063; --warn-soft: #33290F; --ok: #6AD69A; --ok-soft: #14301F; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 1rem; line-height: 1.6; }
+a { color: var(--blue); }
+code { font-family: var(--font-mono); font-size: 0.84em; background: var(--surface); border: 1px solid var(--line); border-radius: 5px; padding: 0.05em 0.35em; overflow-wrap: anywhere; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h2 { font-size: clamp(1.5rem, 5vw, 2rem); } h3 { font-size: 1.15rem; }
+p { margin: 0; max-width: 70ch; }
+ul, ol { margin: 0; padding-left: 1.25rem; max-width: 72ch; }
+li + li { margin-top: 0.35rem; }
+.wrap { max-width: 1000px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.masthead { background: var(--surface); border-bottom: 1px solid var(--line); }
+.masthead .wrap { padding-block: 2.25rem 1.75rem; display: grid; gap: 0.8rem; }
+.kicker { font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.masthead h1 { font-size: clamp(1.9rem, 6vw, 2.6rem); font-weight: 800; }
+.lede { font-size: 1.1rem; color: var(--muted); }
+nav.toc { display: flex; flex-wrap: wrap; gap: 0.4rem 0.9rem; font-size: 0.9rem; }
+main { display: grid; gap: 3rem; padding-block: 2.25rem 4rem; }
+section { display: grid; gap: 1rem; min-width: 0; scroll-margin-top: 1rem; }
+.sec-head { display: grid; grid-template-columns: auto 1fr; gap: 0.15rem 0.9rem; align-items: center; }
+.sec-head .mk { font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; width: 2.8rem; height: 2.8rem; display: grid; place-items: center; border-radius: 50%; background: var(--orange-soft); color: var(--orange); grid-row: span 2; }
+.sec-head .sub { color: var(--muted); font-size: 0.9rem; }
+.callout { border-radius: var(--radius); padding: 1rem 1.15rem; display: grid; gap: 0.5rem; background: var(--surface-2); border: 1px solid var(--line); }
+.callout.rec { background: var(--blue-soft); border-color: transparent; }
+.callout.crit { background: var(--crit-soft); border-color: transparent; }
+.callout.ok { background: var(--ok-soft); border-color: transparent; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr)); gap: 1rem; }
+.col { background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.1rem; display: grid; gap: 0.5rem; align-content: start; min-width: 0; }
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+th, td { text-align: left; vertical-align: top; padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font-family: var(--font-mono); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); background: var(--surface); }
+td.k { font-weight: 700; min-width: 9rem; }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.wide td { min-width: 150px; }
+.pill { display: inline-block; padding: 0.05rem 0.55rem; border-radius: 999px; font-size: 0.76rem; font-weight: 700; white-space: nowrap; }
+.pill.ok { background: var(--ok-soft); color: var(--ok); } .pill.high { background: var(--warn-soft); color: var(--warn); }
+.pill.crit { background: var(--crit-soft); color: var(--crit); } .pill.med { background: var(--blue-soft); color: var(--blue); }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 0.7rem; }
+.fact { background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 0.85rem 1rem; display: grid; gap: 0.15rem; }
+.fact .label { font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+.fact .val { font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.fact .note { font-size: 0.85rem; color: var(--muted); }
+.steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; counter-reset: s; max-width: none; }
+.steps li { margin: 0; display: grid; grid-template-columns: 2.3rem 1fr; gap: 0.85rem; background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 0.9rem 1rem; }
+.steps li > div { min-width: 0; display: grid; gap: 0.35rem; }
+.steps li::before { counter-increment: s; content: counter(s); font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; width: 2.3rem; height: 2.3rem; border-radius: 50%; display: grid; place-items: center; background: var(--blue-soft); color: var(--blue); }
+.steps .when { font-family: var(--font-mono); font-size: 0.74rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.bar { height: 0.55rem; border-radius: 999px; background: var(--surface); overflow: hidden; min-width: 80px; }
+.bar span { display: block; height: 100%; background: var(--green); border-radius: 999px; }
+.small { font-size: 0.9rem; } .muted { color: var(--muted); }
+.mr { font-family: var(--font-display); font-weight: 600; }
+.foot { border-top: 1px solid var(--line); color: var(--muted); font-size: 0.85rem; }
+.foot .wrap { padding-block: 1.25rem 2rem; display: grid; gap: 0.4rem; }
+</style>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="kicker">Barakhadi LLC · research report · 18–19 Oct 2026 · read-only analysis</div>
+    <h1>Rebuilding the Storyline activities as HTML5 engines</h1>
+    <p class="lede">I catalogued every Storyline project on the B: drive and matched each live TalentLMS unit to its source. The activities group into 8 families, and about a dozen reusable engines would replace all of them.</p>
+    <nav class="toc small" aria-label="Sections">
+      <a href="#answer">Short answer</a><a href="#numbers">In numbers</a><a href="#families">Families</a><a href="#engines">Engines</a>
+      <a href="#plan">Build order</a><a href="#problems">Live problems</a><a href="#rights">Assets &amp; rights</a><a href="#deepti">Deepti's units</a>
+      <a href="#decide">Your decisions</a><a href="#files">Files</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section id="answer">
+  <div class="sec-head"><div class="mk">१</div><h2>Short answer</h2><div class="sub">What I found and what I recommend</div></div>
+  <div class="callout rec">
+    <p><strong>Yes, converting everything to HTML5 is practical.</strong> The 325 live Storyline units come from 269 source projects, which reduce to about 187 distinct activities, because many units reuse the same project. Those activities follow a handful of repeating templates, and about a dozen reusable engines would cover all of them.</p>
+    <p><strong>Estimated effort: about 45–55 working days of AI-assisted build.</strong> That includes the engines plus pulling each activity's content out of Storyline and checking it. The first wave alone covers <strong>65% of live units</strong>.</p>
+  </div>
+  <div class="cols">
+    <div class="col"><h3>The good news</h3>
+      <ul>
+        <li>The content can mostly be extracted automatically (about 75–90% per family). The Marathi text is real Unicode (Mangal font in 267 of 269 projects). Answer keys sit in predictable places: trigger conditions, shape states and drag-drop pairs.</li>
+        <li>Most activities are the same template copied per letter or per topic, so one engine pays off many times over.</li>
+        <li>The crossword engine you already have proves the pipeline from engine to data to SCORM 1.2 package. Its shared code (<code>lms.js</code>, <code>fit.js</code>, <code>package.py</code>) carries straight over.</li>
+      </ul></div>
+    <div class="col"><h3>What needs your attention</h3>
+      <ul>
+        <li><strong>Rights:</strong> most art and many voices were made by the vendors (Newgen/Exult, and TreeTo in 2020). Some images come from your stock folders, and a few files trace back to another client's project. See <a href="#rights">assets &amp; rights</a>.</li>
+        <li><strong>Live errors:</strong> about 10 units show the wrong letter, have broken audio, or have a game that can be beaten without learning. See <a href="#problems">live problems</a>.</li>
+        <li><strong>Pedagogy:</strong> I propose some simplifications. One example: the 5 decorative "teaser" gimmicks become one card screen. These need your approval.</li>
+      </ul></div>
+  </div>
+</section>
+
+<section id="numbers">
+  <div class="sec-head"><div class="mk">२</div><h2>The catalogue in numbers</h2><div class="sub">Everything was read in place; nothing on the B: drive or in TalentLMS was changed</div></div>
+  <div class="facts">
+    <div class="fact"><span class="label">Storyline files found</span><span class="val">1,145</span><span class="note">492 in the Newgen folder, 647 elsewhere in Marathi Shala, 5 only inside zips</span></div>
+    <div class="fact"><span class="label">Unique by content</span><span class="val">838</span><span class="note">The rest are byte-identical copies and backups</span></div>
+    <div class="fact"><span class="label">Old Storyline 1 files</span><span class="val">166</span><span class="note">2014 experiments and early versions, which later versions replaced</span></div>
+    <div class="fact"><span class="label">TalentLMS courses</span><span class="val">525</span><span class="note">503 active and not test; 324 contain Storyline</span></div>
+    <div class="fact"><span class="label">Live Storyline units</span><span class="val">325</span><span class="note">Test courses excluded; there are no free-trial "f" copies left</span></div>
+    <div class="fact"><span class="label">Source projects behind them</span><span class="val">269</span><span class="note">About 187 distinct activities</span></div>
+    <div class="fact"><span class="label">Media in those projects</span><span class="val">19,320</span><span class="note">References to 3.5 GB: PNG 9,948, MP3 6,064, WAV 1,332, MP4 214</span></div>
+    <div class="fact"><span class="label">Learners enrolled</span><span class="val">~85</span><span class="note">Unique per level: L1 37 · L2 21 · L0 19 · Gappa Goshti 8</span></div>
+  </div>
+  <div class="callout">
+    <p><strong>Where the live courses come from.</strong> The 2016–17 Gappa Goshti courses are Tin Can (xAPI), published from the Newgen "Semester" folders. The 2020 Level 0/1/2 courses were republished as <strong>SCORM 1.2</strong> from <code>Republished Activities</code> (Newgen projects updated in Storyline 3, plus new TreeTo work), not from the Newgen folder. That is why I widened the scan to all of <code>B:\My Documents\Marathi Shala</code>.</p>
+    <p class="small muted">Matching quality: 310 of 325 units matched with high confidence, 12 medium and 3 low. The deep-dive agents re-checked their families and corrected about 10 matches; the corrections are listed in each spec. The full unit-to-source table is in <code>catalogue/units.csv</code>.</p>
+  </div>
+</section>
+
+<section id="families">
+  <div class="sec-head"><div class="mk">३</div><h2>Eight activity families</h2><div class="sub">Grouped by what the child actually does</div></div>
+  <div class="tbl"><table class="wide">
+    <thead><tr><th>Family</th><th class="n">Projects</th><th class="n">Live units</th><th class="n">Distinct</th><th>What a child does today</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Letter learn &amp; trace</td><td class="n">51</td><td class="n">67</td><td class="n">51</td><td>Full letter lessons (<span class="mr">स्वर</span> L1-0xx, <span class="mr">व्यंजन</span> L1-1xx), 6–8 screens: picture sentences behind a gimmick (jigsaw, crystal ball, filmstrip, spin wheel, balloons), stroke-order video, free tracing, word hunt, barakhadi song, listen-and-choose matra, sticker. 16 of them are reused as Gappa Goshti weekly writing units.</td></tr>
+      <tr><td class="k">Trace &amp; write</td><td class="n">58</td><td class="n">63</td><td class="n">~10</td><td>Level 0 "Trace and Write" modules. Each is a <strong>byte-identical copy</strong> of the letter lesson's video and trace screens, so they share content records with the family above. Also: write words (<span class="mr">आज, काच, काजू, झोका</span>), join the dots, colour the letter series.</td></tr>
+      <tr><td class="k">Words with a letter + alphabet songs</td><td class="n">62</td><td class="n">80</td><td class="n">52</td><td>Level 0 "Words with Swar/Vyanjan X": 4 screens (title, discover 3 words, 6-picture word hunt, sticker). Also Swar song, Vyanjanmala, <span class="mr">अक्षर ओळख</span> and Barakhadi Vachan (447 syllable clips).</td></tr>
+      <tr><td class="k">Conversation scenes</td><td class="n">43</td><td class="n">46</td><td class="n">26</td><td>Illustrated dialogues: tap characters to hear Marathi, with English bubbles. Then an audio quiz or drag game, and a "mystery phrase" that teases next week. 17 Republished files are edited twins of Newgen files.</td></tr>
+      <tr><td class="k">Numbers &amp; time</td><td class="n">27</td><td class="n">36</td><td class="n">18</td><td>Decade sets 11–100 (order the numbers, count, trace numerals and number words, join dots), 1–10 count-reveal, ordinals (<span class="mr">क्रमवाचक</span>, gendered), number song, Story of Numbers book, clock drawing.</td></tr>
+      <tr><td class="k">Grammar &amp; translation</td><td class="n">15</td><td class="n">17</td><td class="n">16</td><td>Sort into <span class="mr">हा/ही/हे</span> buckets, match colours and days, pronoun sentence to picture, prepositions (tap the right picture), multiple-choice translation that tests verb agreement (<span class="mr">उठलो/उठले/उठला</span>).</td></tr>
+      <tr><td class="k">Books &amp; comprehension</td><td class="n">7</td><td class="n">8</td><td class="n">6</td><td>Lion (<span class="mr">सिंह</span>) read-along with word timings, Farm photo hotspots, Parts of body (learn, then activity, then quiz), listening comprehension, picture description.</td></tr>
+      <tr><td class="k">Word games</td><td class="n">6</td><td class="n">8</td><td class="n">8</td><td>Word searches (6 × 3 puzzles, 126 words, conjunct-heavy at Level 2), the crossword lesson (2 crosswords + 2 alphabetical-order games), Chitra-Shabda Jodya.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small muted">Tracking today: every Storyline unit completes when its slides have been viewed. No score and no answers reach TalentLMS, not even the Lion book's stars.</p>
+</section>
+
+<section id="engines">
+  <div class="sec-head"><div class="mk">४</div><h2>The engines</h2><div class="sub">One engine per activity type; content as JSON; single-file SCORM 1.2 packages that fit the frame on phones</div></div>
+  <div class="tbl"><table class="wide">
+    <thead><tr><th>Engine</th><th>Covers</th><th>What it does</th><th>Size</th><th class="n">Build days</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Shared runtime</td><td>All</td><td>Lesson shell: title, sections, hub, sticker/stars finale, several engines in one package. Plus <code>lms.js</code> interaction recording, ASCII-safe media names in <code>package.py</code>, and a common .story extractor toolkit (audio mapping by asset ID, state text, trigger conditions).</td><td><span class="pill med">M</span></td><td class="n">2.5</td></tr>
+      <tr><td class="k">trace</td><td>Letters, Level 0 trace modules, numerals, words, dots, colouring</td><td>Watch the stroke video, then trace over a fading guide (stencil, then faint, then blank). Coverage stars; paint and dots modes. Written fresh; the old Apache-2.0 drawing app is not reused. <em>Optional later upgrade (+3 days):</em> checking stroke order and direction against authored stroke paths.</td><td><span class="pill med">M</span></td><td class="n">2.5</td></tr>
+      <tr><td class="k">letter-words</td><td>Letter lessons + "Words with" modules (≈110 projects)</td><td>Screens: discover cards (one tap-to-reveal treatment replaces the 5 gimmicks), word hunt (tap to hear, mark the words that contain the letter, then Check), barakhadi forms, listen-and-choose matra, reward.</td><td><span class="pill med">M</span></td><td class="n">4</td></tr>
+      <tr><td class="k">sing-along / chart</td><td>Swar song, Vyanjanmala, Barakhadi Vachan, number song</td><td>Letter or number grid; highlights stay in sync with the song (cue times are in the XML, e.g. Swar song <span class="mr">अ</span> 625 ms … <span class="mr">अः</span> 11,688 ms); tap any cell to hear it.</td><td><span class="pill med">M</span></td><td class="n">2</td></tr>
+      <tr><td class="k">conversation</td><td>26 conversation topics (43 files)</td><td>Scene player: characters on a stage, tap a line to hear it with the speaker highlighted, bubbles stack on phones. Built-in quiz types (choice, blank, order), song, chits, mystery reveal. Replaces the duplicated question videos (one module is 111 MB) with a replay button.</td><td><span class="pill high">L</span></td><td class="n">5</td></tr>
+      <tr><td class="k">number-practice</td><td>Decades 11–100, 1–10, ordinals</td><td>Count-reveal, order the numbers, make-a-number with pencils, dot-order, gendered ordinal choice (<span class="mr">ते घुबड → अकरावे</span>).</td><td><span class="pill med">M</span></td><td class="n">3</td></tr>
+      <tr><td class="k">choice</td><td>Translation, listening and reading comprehension, true/false</td><td>Prompt (text, picture or audio) with options read aloud; retry until correct; first wrong pick recorded.</td><td><span class="pill med">M</span></td><td class="n">2</td></tr>
+      <tr><td class="k">sort</td><td>Nouns, pronouns, label-the-scene</td><td>Drag (or tap, then tap) cards into buckets, slots or scene zones.</td><td><span class="pill med">M</span></td><td class="n">1.5</td></tr>
+      <tr><td class="k">storybook</td><td>Lion, Farm, Story of Numbers, Body learn screens</td><td>Page turns, narration with word-by-word highlighting, tap a word to hear it, photo hotspots with captions.</td><td><span class="pill med">M</span></td><td class="n">1.5</td></tr>
+      <tr><td class="k">wordsearch</td><td>6 word searches (18 puzzles)</td><td>Akshara grid, select a line across or down, text/audio/picture clues. Fixes today's "select every tile" exploit.</td><td><span class="pill med">M</span></td><td class="n">2</td></tr>
+      <tr><td class="k">wordorder + crossword</td><td>Crossword lesson</td><td>The crossword is already built. Adds the alphabetical-order bunny and bird game, so the whole lesson ships as one package.</td><td><span class="pill ok">S</span></td><td class="n">0.75</td></tr>
+      <tr><td class="k">clock-set <span class="muted">(optional)</span></td><td>Show the Time, Clock</td><td>Drag the hands to a Marathi time (<span class="mr">९:३०</span>) and the engine checks it. Today this is free drawing on clock faces.</td><td><span class="pill ok">S</span></td><td class="n">1</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small muted">The build days count AI-assisted engine work only, calibrated against the crossword engine (about one working session for engine + data + packaging + tests). Total engine work: about 28 days.</p>
+</section>
+
+<section id="plan">
+  <div class="sec-head"><div class="mk">५</div><h2>Build order and effort</h2><div class="sub">Ordered by live units covered per day of work</div></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Wave</th><th>Engines</th><th class="n">Live units</th><th>Share of 325</th><th class="n">Days</th></tr></thead>
+    <tbody>
+      <tr><td class="k">1 · Letters</td><td>shared runtime, trace, letter-words</td><td class="n">210</td><td><div class="bar" title="65%"><span style="width:65%"></span></div></td><td class="n">≈18</td></tr>
+      <tr><td class="k">2 · Conversation</td><td>conversation</td><td class="n">46</td><td><div class="bar" title="14%"><span style="width:14%"></span></div></td><td class="n">≈10</td></tr>
+      <tr><td class="k">3 · Grammar &amp; books</td><td>choice, sort, storybook</td><td class="n">25</td><td><div class="bar" title="8%"><span style="width:8%"></span></div></td><td class="n">≈8</td></tr>
+      <tr><td class="k">4 · Numbers &amp; games</td><td>number-practice, sing-along, wordsearch, wordorder, clock</td><td class="n">44</td><td><div class="bar" title="13%"><span style="width:13%"></span></div></td><td class="n">≈12</td></tr>
+      <tr><td class="k">Total</td><td>about 12 engines</td><td class="n">325</td><td></td><td class="n">≈48</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small muted">Each wave's days include the engines plus per-activity extraction and checking (13–110 minutes per activity depending on the family; about 20 days in total). The agents' own family estimates add up to 63 days before shared engines are counted once. Allow ±30%. Native-speaker review time is extra (for example, about 13 hours if conversations get Devanagari subtitles).</p>
+  <ol class="steps">
+    <li><div><span class="when">Pilot · about 1 week</span><strong>One letter end to end: <span class="mr">क</span>.</strong><p>Build the shared runtime, trace and letter-words engines, then the L1-101 <span class="mr">क</span> lesson, its Level 0 "Trace and Write" and its "Words with <span class="mr">क</span>" modules. Upload them to a copy course and check the fit on laptop, iPad and phone, the SCORM score and interactions in TalentLMS reports, and whether <strong>replacing a unit's file keeps learner progress</strong>.</p></div></li>
+    <li><div><span class="when">Wave 1 rollout</span><strong>All 51 letters plus the Level 0 modules.</strong><p>Batch extraction, with a review sheet listing each letter's words, sentences, answers and audio for a quick check by you or Deepti. Fix the known wrong-letter units at the same time.</p></div></li>
+    <li><div><span class="when">Waves 2–4</span><strong>Conversation, then grammar and books, then numbers and games.</strong><p>Each wave starts with one pilot activity in the copy course before batch extraction.</p></div></li>
+  </ol>
+</section>
+
+<section id="problems">
+  <div class="sec-head"><div class="mk">६</div><h2>Problems in live units today</h2><div class="sub">Found during the deep dives; worth fixing whether or not you rebuild</div></div>
+  <div class="tbl"><table class="wide">
+    <thead><tr><th>Where</th><th>Problem</th><th>Severity</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Level 0 Trace and Write <span class="mr">ह, ळ, क्ष, ज्ञ</span></td><td>Each shows the previous letter (files "Optional writing Module 43 h / 44 L / 45 ksha / 46 dnya" hold <span class="mr">स / ह / ळ / क्ष</span>). The correct assets exist in other files.</td><td><span class="pill crit">wrong content</span></td></tr>
+      <tr><td class="k">Words with Vyanjan <span class="mr">ण</span></td><td>A full copy of the <span class="mr">न</span> module. Also, the <span class="mr">ज्ञ</span> module's word hunt is the <span class="mr">क्ष</span> hunt, and <span class="mr">घ</span> has a leftover <span class="mr">क</span> instruction.</td><td><span class="pill crit">wrong content</span></td></tr>
+      <tr><td class="k">Word searches</td><td>Selecting every tile solves every word. One Level 2 puzzle shows <span class="mr">तुरा</span> for the clues <span class="mr">कंठ, पंख, चोच, पिसारा</span>. Visarga is typed as an ASCII colon (<span class="mr">स्वत:ला, दु:ख</span>).</td><td><span class="pill high">bug</span></td></tr>
+      <tr><td class="k">Write Letter and Words (2 copies)</td><td>Audio is broken: the code asks for <code>Zoka.mp3</code> and <code>Ka.mp3</code>, but different files were shipped, so clips play on the wrong items.</td><td><span class="pill high">bug</span></td></tr>
+      <tr><td class="k">Lion book, reverse scene</td><td>The read-along text is one page off on slides 14–16, and <span class="mr">व/आणि</span> disagree on page 5.</td><td><span class="pill med">minor</span></td></tr>
+      <tr><td class="k">Trace guide images</td><td>Typos baked into the images: the <span class="mr">झ</span> panel says <span class="mr">इथे आ गिरवा</span>; the <span class="mr">ह</span> guide says <span class="mr">इथे ब लिहा</span>.</td><td><span class="pill med">minor</span></td></tr>
+      <tr><td class="k">Missing sources</td><td>No .story for "Words with <span class="mr">अः</span>" (only the published package). The TalentLMS Level 0 units "Trace and Write Vyanjan <span class="mr">ष / स</span>" match only Level 1 lessons.</td><td><span class="pill med">gap</span></td></tr>
+      <tr><td class="k">All Storyline units</td><td>Completion is "slides viewed" only; no score or answers reach TalentLMS.</td><td><span class="pill med">tracking</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="rights">
+  <div class="sec-head"><div class="mk">७</div><h2>Assets and rights</h2><div class="sub">Traced from the original file paths recorded inside each project</div></div>
+  <div class="tbl"><table class="wide">
+    <thead><tr><th>Source</th><th class="n">Media refs</th><th>What it is</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Newgen / Exult (vendor PCs and the <code>\\gold</code> share)</td><td class="n">≈7,000</td><td>Most character and scene art, picture words, stroke videos, many voice clips. The "Exult" share name and the <code>Fin\Invoices\Exult</code> folder suggest Exult was the contracting company.</td><td>Find the contract and confirm it assigns ownership to Barakhadi.</td></tr>
+      <tr><td class="k">TreeTo (2020)</td><td class="n">≈1,100</td><td>Grammar pictures and audio, word searches, numbers 11–100 art, the republish work.</td><td>Same check on the TreeTo contract.</td></tr>
+      <tr><td class="k">Recorded in Storyline</td><td class="n">≈3,000</td><td>Narration and word clips recorded straight into Storyline.</td><td>Confirm whose voices they are and that you have consent, especially for any child voices.</td></tr>
+      <tr><td class="k">Your folders (Pictures, Stock Photos, Stock Sounds)</td><td class="n">≈2,500</td><td>Puzzle and matra art, stickers, backgrounds, <code>snd_correct.mp3</code>, Audioblocks sounds.</td><td>Check your Shutterstock licence history (20 files are named <code>shutterstock_…</code>, and the Farm book credits <em>Ailisa / Shutterstock.com</em>, an editorial licence that needs a credit). Audioblocks/Storyblocks sounds: check the subscription terms, or replace them with generated chimes. Most stock items are decorative and can be dropped.</td></tr>
+      <tr><td class="k">Another client's project</td><td class="n">60</td><td>Splash art from <code>D:\Projects\Caveo_PPD</code> in L1-135 <span class="mr">क्ष</span>.</td><td><strong>Replace.</strong></td></tr>
+      <tr><td class="k">Unknown origin</td><td class="n">few</td><td><code>Akshar_Video.mp4</code>, the Swar and Vyanjanmala songs (composer and singer), <code>Fireworks.mp4</code>, Level 2 word-search clip art, Lion photos.</td><td>Confirm or replace.</td></tr>
+      <tr><td class="k">Articulate and Microsoft</td><td class="n">—</td><td>Storyline textures (<code>Parchment.jpeg</code>), the Articulate icon font, Mangal / MV Boli fonts.</td><td>Drop; use Baloo 2 Devanagari (open licence), which is already used on the site.</td></tr>
+      <tr><td class="k">Third-party code</td><td class="n">—</td><td>The tracing web object is William Malone's 2010 canvas drawing app plus excanvas.js (both Apache-2.0).</td><td>Not reused; the new engine is written fresh.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small muted">Reusable as-is once rights are confirmed: word pictures, voice clips (WAVs converted to MP3), 44 stroke-order MP4s, 85 trace-guide images (each letter's first panel already shows numbered stroke arrows), song audio with cue timings, sticker art.</p>
+</section>
+
+<section id="deepti">
+  <div class="sec-head"><div class="mk">८</div><h2>Deepti's TalentLMS units (light review)</h2><div class="sub">Structural only: TalentLMS doesn't expose unit content through the API</div></div>
+  <div class="cols">
+    <div class="col"><h3>What's there</h3>
+      <ul>
+        <li>582 Assignment and 239 Content units, almost all in Level 2 (158 Content) and Level 1 (68). 142 of the Content units are answer sheets.</li>
+        <li>167 live courses in Levels 0–4 have no Storyline at all: 107 are lesson-led and 60 are assignment-only.</li>
+        <li>The standard shape is a mini-lesson, then Assignment n, then "Answers for Assignment n". Course shells were bulk-created on 19–22 Sep 2020 and mostly filled in during 2021. Level 3 stalled, with 5 of its 7 courses empty.</li>
+      </ul></div>
+    <div class="col"><h3>Quick wins</h3>
+      <ul>
+        <li>Every course requires all units, and none has prerequisites, so answer sheets can be opened early unless sequential order is on. Consider hiding them until submission.</li>
+        <li>14 test or placeholder courses are visible in the catalogue, and 11 live courses are empty shells. Archive or hide them.</li>
+        <li>Fix the mislabels: course 342 (<span class="mr">अः</span>) holds "Assignment 2 for <span class="mr">अ</span> (clone)"; 476's Visarg lesson is titled "Anuswar"; 808 has its assignment before the Storyline.</li>
+        <li>Later: the 3 Level 2 "Simple Crossword" courses can feed the existing crossword engine. A conjunct-builder engine (about 1.5 days) could serve the ~31 Jodakshare courses.</li>
+      </ul></div>
+  </div>
+</section>
+
+<section id="decide">
+  <div class="sec-head"><div class="mk">९</div><h2>Decisions I need from you</h2><div class="sub">In the order they block work</div></div>
+  <ol class="steps">
+    <li><div><strong>Go for the <span class="mr">क</span> pilot?</strong><p>About one week. It includes the TalentLMS test of whether replacing a unit's file keeps learner progress.</p></div></li>
+    <li><div><strong>Rights paperwork.</strong><p>Newgen/Exult and TreeTo contracts, Shutterstock licence history, the Audioblocks/Storyblocks subscription, and voice consent. Until these are confirmed, I'll keep vendor and stock assets in a "pending" list and use them only in test courses.</p></div></li>
+    <li><div><strong>Simplifications.</strong><p>Collapse the 5 teaser gimmicks into one card screen; drop the word-hunt timer and the time-based stars; replace the conversation question videos with a replay button; drop the Body jigsaw and the name-entry screen.</p></div></li>
+    <li><div><strong>Tracing.</strong><p>Free tracing with coverage stars now and stroke-order checking later, or stroke checking from the start? Which stroke order: Balbharati, or the vendor's arrows (which draw the shirorekha last)?</p></div></li>
+    <li><div><strong>Shared packages.</strong><p>Should one package per letter or topic serve all the units that use it (Level 0, Level 1 and Gappa Goshti)? And should the 2017 Gappa Goshti courses (8 learners) be rebuilt or retired?</p></div></li>
+    <li><div><strong>Conversation subtitles.</strong><p>Devanagari subtitles need transcription plus your review (about 13 hours). The other options are adding transliteration or keeping the English bubbles only.</p></div></li>
+    <li><div><strong>Content gaps.</strong><p>Real word lists and recordings for <span class="mr">ण</span> and the <span class="mr">ज्ञ</span> word hunt; rebuild "Words with <span class="mr">अः</span>" from its published package.</p></div></li>
+  </ol>
+  <p class="small muted">Each spec ends with more detailed questions for its family.</p>
+</section>
+
+<section id="files">
+  <div class="sec-head"><div class="mk">१०</div><h2>Specs, data and method</h2><div class="sub">Everything is in <code>barakhadi-web\docs\storyline-research\</code></div></div>
+  <div class="cols">
+    <div class="col"><h3>Engine specs (one per family)</h3>
+      <ul class="small">
+        <li><a href="specs/letter-trace.md">Letter learn &amp; trace</a></li>
+        <li><a href="specs/trace-write.md">Trace &amp; write</a></li>
+        <li><a href="specs/vocab-letter.md">Words with a letter &amp; songs</a></li>
+        <li><a href="specs/conversation.md">Conversation scenes</a></li>
+        <li><a href="specs/numbers-time.md">Numbers &amp; time</a></li>
+        <li><a href="specs/grammar-translation.md">Grammar &amp; translation</a></li>
+        <li><a href="specs/books-comprehension.md">Books &amp; comprehension</a></li>
+        <li><a href="specs/word-games.md">Word games</a></li>
+        <li><a href="specs/deepti-content-units.md">Deepti's content units</a></li>
+      </ul></div>
+    <div class="col"><h3>Catalogue (CSV)</h3>
+      <ul class="small">
+        <li><code>catalogue/projects.csv</code>: all 1,145 .story files with version, size, slides, interactions, media origins</li>
+        <li><code>catalogue/units.csv</code>: every TalentLMS SCORM/xAPI unit with its matched source and confidence</li>
+        <li><code>catalogue/projects_live.csv</code>, <code>families.csv</code>, <code>courses.csv</code></li>
+        <li>Tools in <code>tools/</code>: catalogue parser, matcher, preview renderer, read-only TalentLMS client</li>
+      </ul></div>
+    <div class="col"><h3>How it was done</h3>
+      <ul class="small">
+        <li>Every .story was read as a zip in memory; nothing was extracted next to the source, and nothing on the B: drive was written.</li>
+        <li>TalentLMS was read with GET calls only (courses, units, categories). One unit page fetch returned the login page, which confirmed that unit content can't be read this way.</li>
+        <li>Matching used player titles stored in each project, file and folder names, letter decoding (L1-1NN codes, module numbering), semester and week, and number ranges.</li>
+        <li>8 AI agents deep-dived the families using slide preview sheets drawn from the XML.</li>
+      </ul></div>
+  </div>
+</section>
+
+</main>
+<footer class="foot"><div class="wrap">
+  <p>Prepared for Pushkar Damle, Barakhadi LLC. Private research report; it contains no learner names or API keys.</p>
+  <p>Estimates are AI-assisted working days and carry roughly ±30% uncertainty until the <span class="mr">क</span> pilot calibrates them.</p>
+</div></footer>

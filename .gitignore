@@ -18,3 +18,8 @@ npm-debug.log*
 # OS / editor
 .DS_Store
 Thumbs.db
+
+# Storyline research working files (large, local only)
+docs/storyline-research/_work/
+docs/storyline-research/previews/
+__pycache__/
