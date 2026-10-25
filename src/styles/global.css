@@ -30,7 +30,7 @@
   --color-night: #1a1d1b;
 
   /* Type */
-  --font-display: var(--font-outfit), "Baloo 2", system-ui, sans-serif;
+  --font-display: var(--font-quicksand), "Baloo 2", system-ui, sans-serif;
   --font-sans: var(--font-nunito), system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-marathi: var(--font-baloo), "Noto Sans Devanagari", "Nirmala UI", sans-serif;
 

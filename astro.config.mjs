@@ -29,15 +29,14 @@ export default defineConfig({
       },
     },
     {
+      // Headings, buttons and display text. Rounded, soft shapes (owner's choice, 2026-10-25). Max weight 700.
       provider: fontProviders.local(),
-      name: 'Outfit',
-      cssVariable: '--font-outfit',
+      name: 'Quicksand',
+      cssVariable: '--font-quicksand',
       fallbacks: ['sans-serif'],
       options: {
         variants: [
-          { src: ['@fontsource/outfit/files/outfit-latin-600-normal.woff2'], weight: 600, style: 'normal' },
-          { src: ['@fontsource/outfit/files/outfit-latin-700-normal.woff2'], weight: 700, style: 'normal' },
-          { src: ['@fontsource/outfit/files/outfit-latin-800-normal.woff2'], weight: 800, style: 'normal' },
+          { src: ['@fontsource-variable/quicksand/files/quicksand-latin-wght-normal.woff2'], weight: '300 700', style: 'normal' },
         ],
       },
     },

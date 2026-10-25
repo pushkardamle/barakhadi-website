@@ -14,7 +14,7 @@ Background, research and the decision record: `docs/barakhadi-rebuild-assessment
 
 - **Astro 7** (pinned to the 7.3 line) + **Tailwind 4** + `@astrojs/cloudflare` 14.3, deployed as a **Cloudflare Worker with static assets** (not Pages).
 - Pages are prerendered (static). Only routes that need a server (contact form now; Stripe checkout/webhook later) opt out with `export const prerender = false`.
-- Fonts self-hosted via Astro's Fonts API from Fontsource packages (see `astro.config.mjs`). Nunito for body; Baloo 2 for Devanagari.
+- Fonts self-hosted via Astro's Fonts API from Fontsource packages (see `astro.config.mjs`). Quicksand for headings, buttons and display text (owner prefers rounded fonts, 2026-10-25; max weight 700); Nunito for body; Baloo 2 for Devanagari.
 - No React or other UI framework yet. Plain `.astro` components and a few lines of vanilla JS where needed (mobile menu, tabs). Add an island only when it earns its weight.
 - Images live in `src/assets/` and go through `astro:assets` `<Image>`/`<Picture>`.
 
