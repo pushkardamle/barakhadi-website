@@ -45,7 +45,15 @@ const columns = [
         <div class={`photo-col photo-col-${i + 1}`}>
           {col.map((photo) => (
             <figure class:list={['photo-card', { featured: photo.featured }]}>
-              <Image src={photo.src} alt={photo.alt} widths={[320, 640]} sizes="(min-width: 968px) 300px, 45vw" loading="eager" />
+              {/* Phones show only columns 1-2, so column 3 loads lazily. Smaller widths keep phone downloads light. */}
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                widths={[240, 360, 480, 640]}
+                sizes="(min-width: 968px) 280px, (min-width: 640px) 30vw, 44vw"
+                loading={i === 2 ? 'lazy' : 'eager'}
+                fetchpriority={photo.featured ? 'high' : undefined}
+              />
             </figure>
           ))}
         </div>
@@ -67,7 +75,7 @@ const columns = [
   .hero::after {
     content: '';
     position: absolute;
-    background: url('/icon-512.png') no-repeat center / contain;
+    background: url('/hero-knot.webp') no-repeat center / contain;
     pointer-events: none;
   }
   .hero::before { width: 46rem; height: 46rem; top: -18rem; right: -24rem; opacity: 0.12; rotate: 15deg; }
