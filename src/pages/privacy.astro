@@ -2,6 +2,7 @@
 import Base from '@/layouts/Base.astro';
 import PageHeader from '@/components/PageHeader.astro';
 import { site } from '@/data/site';
+import Email from '@/components/Email.astro';
 
 const updated = 'October 17, 2026';
 ---
@@ -59,7 +60,7 @@ const updated = 'October 17, 2026';
           children under 13 through this website. If you believe a child has sent us information, contact us and we will delete it.
         </p>
         <p>
-          Parents can ask to review the information we hold about their child, correct it, or have it deleted, at any time, by emailing <strong>{site.email}</strong>.
+          Parents can ask to review the information we hold about their child, correct it, or have it deleted, at any time, by emailing <strong><Email /></strong>.
         </p>
 
         <h2 class="text-ink">Who we share information with</h2>
@@ -88,14 +89,14 @@ const updated = 'October 17, 2026';
         <h2 class="text-ink">Your choices and rights</h2>
         <p>
           You can ask us for a copy of your information, ask us to correct or delete it, or stop receiving emails from us. Depending on where you live (for example
-          the UK or the EU), you may have additional rights. Email <strong>{site.email}</strong> and we will respond.
+          the UK or the EU), you may have additional rights. Email <strong><Email /></strong> and we will respond.
         </p>
 
         <h2 class="text-ink">Changes to this policy</h2>
         <p>If we change this policy we will update the date at the top of this page. For significant changes we will let subscribers know by email.</p>
 
         <h2 class="text-ink">Contact</h2>
-        <p>{site.company}<br />Email: <strong>{site.email}</strong></p>
+        <p>{site.company}<br />Email: <strong><Email /></strong></p>
       </div>
     </div>
   </section>

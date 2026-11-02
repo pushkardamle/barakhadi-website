@@ -29,7 +29,7 @@ Background, research and the decision record: `docs/barakhadi-rebuild-assessment
 - Activity screenshots don't repeat across the main pages (home hero, home core skills and Who it's for each use different ones); repeats undercut the "300+ activities" claim.
 - Colour balance: use the four logo colours roughly equally. Home hero is green; inner page headers are blue or red (`<PageHeader tone>`); orange is reserved for buttons. Accents rotate red / blue / green.
 - No small accent labels ("eyebrows") above section headings.
-- Contact email: **info@barakhadi.com**. Show it as text; no `mailto:`-only flows.
+- Contact email: **info@barakhadi.com**. Show it as text; no `mailto:`-only flows. Always render it with `<Email />` (`src/components/Email.astro`): the address is kept out of the HTML so scrapers can't harvest it, and a script at the end of `Base.astro` rebuilds it. Don't write the address directly into pages, FAQ text or JSON-LD.
 - Canonical host: **https://www.barakhadi.com** with trailing slashes (`/faq/`, `/contact-us/`), matching the old WordPress URLs.
 - Pages are in English with Marathi phrases. `<html lang="en">`; wrap Marathi runs in `lang="mr"`.
 - Don't invent claims (user counts, hours practiced, testimonials). Ask the owner.

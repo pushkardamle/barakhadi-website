@@ -1,0 +1,19 @@
+---
+// Shows site.email without putting it in the page source, so scrapers reading the raw HTML don't harvest it.
+// The address is stored reversed and base64-encoded; a small script rebuilds it in the browser.
+// The decoding script lives at the end of Base.astro. Without JavaScript, visitors see "info [at] barakhadi [dot] com".
+import { site } from '@/data/site';
+
+interface Props {
+  /** Render as a mailto: link (footer). Otherwise plain text that can be selected and copied. */
+  link?: boolean;
+  class?: string;
+}
+
+const { link = false, class: className } = Astro.props;
+const encoded = btoa([...site.email].reverse().join(''));
+const fallback = site.email.replace('@', ' [at] ').replace(/\./g, ' [dot] ');
+---
+
+<span class:list={['obf-email', className]} data-e={encoded} data-link={link ? '1' : undefined}>{fallback}</span>
+

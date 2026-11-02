@@ -29,7 +29,6 @@ const organization = {
   alternateName: site.nameMarathi,
   url: site.url,
   logo: new URL('/icon-512.png', site.url).href,
-  email: site.email,
   description: site.description,
 };
 ---
@@ -106,5 +105,21 @@ const organization = {
       <slot />
     </main>
     <Footer />
+    {/* Rebuilds email addresses hidden from scrapers by <Email /> */}
+    <script is:inline>
+      document.querySelectorAll('.obf-email[data-e]').forEach(function (el) {
+        var email = atob(el.dataset.e || '').split('').reverse().join('');
+        if (el.dataset.link) {
+          var a = document.createElement('a');
+          a.href = 'mailto:' + email;
+          a.textContent = email;
+          a.className = el.className.replace('obf-email', '').trim();
+          el.replaceWith(a);
+        } else {
+          el.textContent = email;
+        }
+        el.removeAttribute('data-e');
+      });
+    </script>
   </body>
 </html>

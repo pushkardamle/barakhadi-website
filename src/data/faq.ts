@@ -85,7 +85,7 @@ export const faqGroups: { heading: string; items: Faq[] }[] = [
       },
       {
         q: 'How do I subscribe?',
-        a: "Contact us through the contact form or at info@barakhadi.com. We'll set up the student's account and send you the login details.",
+        a: "Send us a message through the contact page, or email us (the address is on the contact page). We'll set up the student's account and send you the login details.",
       },
     ],
   },

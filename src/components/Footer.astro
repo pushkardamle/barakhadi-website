@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import mark from '@/assets/images/logo-mark.png';
 import { footerNav, lms, site } from '@/data/site';
 import NewTabIcon from '@/components/NewTabIcon.astro';
+import Email from '@/components/Email.astro';
 
 const year = new Date().getFullYear();
 ---
@@ -17,7 +18,7 @@ const year = new Date().getFullYear();
       <p class="max-w-xs text-[0.95rem]">Interactive Marathi activities for kids, families and Marathi schools.</p>
       <p class="text-[0.95rem]">
         Questions? Write to us at<br />
-        <a href={`mailto:${site.email}`} class="font-bold text-white">{site.email}</a>
+        <Email link class="font-bold text-white" />
       </p>
     </div>
     {footerNav.map((col) => (
