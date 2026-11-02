@@ -57,7 +57,10 @@ const organization = {
     <meta name="twitter:card" content="summary_large_image" />
     <Font cssVariable="--font-nunito" preload />
     <Font cssVariable="--font-quicksand" preload />
-    <Font cssVariable="--font-baloo" />
+    {/* Preload the Devanagari weight used by the home hero tagline, and the hero/header background knot,
+        so phones don't re-draw the hero late (it was the slowest part of the page on phones). */}
+    <Font cssVariable="--font-baloo" preload={[{ weight: 600 }]} />
+    <link rel="preload" as="image" href="/hero-knot.webp" type="image/webp" fetchpriority="high" />
     <script is:inline type="application/ld+json" set:html={JSON.stringify([organization, ...schema])} />
     <meta name="generator" content={Astro.generator} />
     {/* Usermaven (same setup as the old site). Cloudflare Web Analytics is injected automatically by Cloudflare. */}
